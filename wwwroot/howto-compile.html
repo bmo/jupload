@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>JUpload - File Upload Applet (HowTo - compile)</title>
+</head>
+<body>
+<script language="javascript" src="common.js" type="text/javascript"> </script>
+
+<h1>How to compile this applet ?</h1>
+
+
+<h2>Content of this page</h2>
+<dir>
+    <li><a href="#eclipse">Install eclipse</a></li>
+    <li><a href="#source">Get the applet sources</a></li>
+    <li><a href="#basic">Basic compilation, with eclipse</a></li>
+    <li><a href="#ant">Ant build file</a></li>
+</dir>
+
+
+
+<h2><a name="eclipse">How to install eclipse?</a></h2>
+
+<P>Eclipse is the best way to develop the java stuff, like the applet. Go to 
+<a href="http://eclipse.org">eclipse.org</a> to download it.</P>
+
+To get sources from the sourceforge Subversion (conf management), you'll have to install the eclipse 
+subversion plugin. This is <B>optionnal</B>, as you can also get sources from the JUpload releases (see below). 
+Take care that there are two eclipse plugins for SVN: subversion (on polarion.org) and subclipse (on tigris.org). I
+prefer the first one: the second one let you do anything, and I did several mistakes in my SVN with it. An easy 
+way to install it is to use the eclipse software management function:
+<UL>
+<LI>Click on 'Help / Software Updates / Find and Install'
+<LI>If there is no 'Subversive update site', go to 
+<a href="http://www.polarion.org/index.php?page=overview&project=subversive">subersion eclipse plugin</a>,
+or add a new remote site, with this URL (for eclipse 3.2 and 3.3): 
+	http://www.polarion.org/projects/subversive/download/1.1/update-site/ 
+	<DIR>
+	<LI>If there is no 'Subclipse update site', add a new remote site, with this URL: 
+	http://subclipse.tigris.org/update_1.2.x
+	</DIR>
+<LI>Check both subclipse and 'Europa Discovery site' (Europa is the eclipse 3.3 release)
+<LI>Click on 'Finish'. Eclipse will load the package list for the selected items.
+<LI>The list of available packages is displayed. Select the subversion plugin. Eclipse will help you to manage
+dependancies, by showing you the lacking ones, and a button that selects the necessary packages.
+</UL>
+
+
+<h2><a name="source">How to get the applet sources ?</a></h2>
+There are two ways:
+<UL>
+<LI>Get one JUpload release, by downloading a JUpload release file, from the sourceforge download page.
+<LI>Download it from SVN ... from the sourceforge SVN. By doing this, you can get any release, by using the 
+relevant SVN branch/tag. You can also get the trunk sources, to get the last commited source files.
+</UL>
+
+The easiest way is to download a JUpload release. See below, for information on how to get the sources from the
+sourceforge Subversion.
+
+<h2><a name="basic">Basic compilation, with eclipse, from a JUpload release</a></h2>
+
+<P>This is the simplest way to run the applet. Use the JUpload releases.</P>
+
+Create a new project:
+<UL>
+<LI>menu : 'File / New / Project'
+<LI>In the dialog box: select 'Java / Java Project'. Click on 'Next'
+<LI>Enter a project name, and all other default values. Check that 'separate folders for sources and class files' is selected.
+<LI>Click on 'Finish',
+<LI>Right click on the newly created project
+<LI>Select 'Import...'
+<LI>In the dialog box: select 'General / Archive File' . Click on 'Next'
+<LI>Browse to the archive file. Click on 'Finish'
+<LI>Answer 'Yes' to all the 'overwrite' eclipse validation.
+</UL>
+
+To launch the applet:
+<UL>
+<LI>Right-click on your project,
+<LI>Select 'Run as' or 'Debug as', then 'Java applet'
+<LI>Select the 'JUploadApplet'. This will let you to several errors in the console... but initilized the application in eclipse... You now only have to set the applet parameters.
+</UL>
+
+To set applet parameters:
+<UL>
+<LI>Open the menu 'Run / Open Debug Dialog...'  (or 'Run / Open Run Dialog...')
+<LI>The JUploadApplet should be selected, in the 'Java applet' section. If not, select it.
+<LI>On the right panel, select the 'Parameter' entry
+<LI>Just add the necessaru applet parameter. At least one: the postURL.
+<LI>Click on 'Debug'
+</UL>
+
+To launch the applet a second time: 
+<UL>
+<LI>Just click on the 'bug', on the tool bar, or hit F11. It will launch the last launched application, in debug mode.
+</UL>
+
+
+<P><B>Caution:</B> prior to applet 3.1.0, you must first run the <a href="#ant">Ant build file</a> before being 
+able to compile with eclipse</P>
+
+
+<h2><a name="ant">Compile with the given Ant build file</a></h2>
+<P>An ant build file is given with JUpload, to generate two main targets:</P>
+<UL>
+<LI>The default one, 'deploy', create the compiled jar file. Its main advantage, is that it creates or updates
+the /conf/svn.properties file, that contains the applet version (see wjhk.jupload2.JUploadApplet#VERSION 
+attribute) and last SVN commit number. 
+<LI>The 'dist' creates a jar containing a jupload release, including: sources and wwwroot directory, with javadoc.
+</UL>
+
+To use this ant build file (<I>build.xml</I>), with eclipse: just right on it, and choose <I>Run as / ant build</I>.
+
+<h2><a name="svn">Get the sources from the sourceforge subversion</a></h2>
+
+<P>You must have eclipse, with the subversion plugin installed. Then, you have to do these steps:</P>
+<UL>
+<LI>Open the Java perspective (menu: window / open perspective / java)
+<LI>On the left panel (should be 'package explorer'), right click,
+<LI>Select 'New / Project'
+<LI>Then, select 'SVN / Check out project from SVN'
+<LI>Create a new repository location: URL is: https://jupload.svn.sourceforge.net/svnroot/jupload
+<LI>Click on 'Finish'
+</P>
+
+
+<a name="links"></a>
+<script language="javascript" type="text/javascript"> footer(); </script>
+<script language="javascript" src="timestamp.js" type="text/javascript"></script>
+
+</body>
+</html>

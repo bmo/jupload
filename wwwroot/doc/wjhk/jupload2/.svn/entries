@@ -1,0 +1,148 @@
+8
+
+dir
+478
+https://jupload.svn.sourceforge.net/svnroot/jupload/trunk/jupload2/wwwroot/doc/wjhk/jupload2
+https://jupload.svn.sourceforge.net/svnroot/jupload
+
+
+
+2008-06-10T11:47:17.519794Z
+478
+etienne_sf
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+35eed6a1-492f-0410-aaa5-912e50059252
+
+class-use
+dir
+
+JUploadApplet.Callback.html
+file
+
+
+
+
+2008-06-13T17:25:44.000000Z
+3d8719d4fcffe443661e20ab41fb554d
+2008-06-10T11:47:17.519794Z
+478
+etienne_sf
+
+gui
+dir
+
+upload
+dir
+
+package-frame.html
+file
+
+
+
+
+2008-06-13T17:25:44.000000Z
+60f7a20a9d87a8789b7899eac25db22d
+2008-06-10T11:47:17.519794Z
+478
+etienne_sf
+has-props
+
+policies
+dir
+
+EmptyApplet.html
+file
+
+
+
+
+2008-06-13T17:25:44.000000Z
+a4e142e9edcdf7b7ae4090dd7d0be30f
+2008-06-10T11:47:17.519794Z
+478
+etienne_sf
+has-props
+
+JUploadApplet.html
+file
+
+
+
+
+2008-06-13T17:25:44.000000Z
+d3a593229d1949d3061eb138dcb18039
+2008-06-10T11:47:17.519794Z
+478
+etienne_sf
+has-props
+
+JavascriptHandler.html
+file
+
+
+
+
+2008-06-13T17:25:44.000000Z
+7033398558e7fc1761a45c6a3a6a15e7
+2008-06-10T11:47:17.519794Z
+478
+etienne_sf
+
+package-use.html
+file
+
+
+
+
+2008-06-13T17:25:44.000000Z
+2700a1cf954f2215280f59609461cb44
+2008-06-10T11:47:17.519794Z
+478
+etienne_sf
+has-props
+
+filedata
+dir
+
+package-summary.html
+file
+
+
+
+
+2008-06-13T17:25:44.000000Z
+6752b5297a04b9d2ce32eded561671b8
+2008-06-10T11:47:17.519794Z
+478
+etienne_sf
+has-props
+
+package-tree.html
+file
+
+
+
+
+2008-06-13T17:25:44.000000Z
+886c949333b22a9de9a777aaa39067db
+2008-06-10T11:47:17.519794Z
+478
+etienne_sf
+has-props
+
+exception
+dir
+

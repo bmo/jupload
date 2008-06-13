@@ -1,0 +1,117 @@
+#Norwegian characters \u00e6/\u00c6, \u00f8/\u00d8, \u00e5/\u00c5 can be replaced with the following HTML entities
+#\u00e6 - &aelig;
+#\u00c6 - &AElig;
+#\u00f8 - &oslash;
+#\u00d8 - &Oslash;
+#\u00e5 - &aring;
+#\u00c5 - &Aring;
+# 
+#Or eventually (not recomended) the following characters
+#\u00e6 - ae
+#\u00c6 - AE
+#\u00f8 - oe 
+#\u00d8 - OE
+#\u00e5 - aa 
+#\u00c5 - AA
+#
+# This file contains a value for each key. In Norwegian 
+#
+# The %1$d (and similar) code sequences are placeholders for varable substitution,
+# The sequence %% represents a single percent-character. 
+
+#JUploadPanel
+buttonBrowse = Bla gjennom ...
+buttonRemoveSelected = Fjern valgte
+buttonRemoveAll = Fjern alle
+buttonRotateLeft = Roter venstre
+buttonRotateRight = Roter h\u00f8yre
+buttonUpload = Last opp
+buttonStop = STOPP
+#JUploadPanel, The components of the status line
+speedunit_gb_per_second = Gb/s
+speedunit_mb_per_second = Mb/s
+speedunit_kb_per_second = Kb/s
+speedunit_b_per_second = b/s
+timefmt_hms = %1$d tim., %2$d min. and %3$d sek.
+timefmt_ms = %1$d min. and %2$d sek.
+timefmt_s = %1$d sekunder
+timefmt_unknown = ukjent
+status_msg = JUpload %1$d%% ferdig, overf\u00f8ringshastighet: %2$,3.2f %3$s, ETA: %4$s
+
+#JUploadExceptionTooBigFile
+errFileTooBig = Filen '%1$s' er for stor (%2$d byte)
+
+#FileUploadThread
+preparingFile = Forbereder fil %1$d/%2$d
+infoUploading = Laster opp filer %1$s
+infoUploaded = %1$s fil(er) lastet opp. Venter p\u00e5 serverrespons ...
+infoAborted = Opplasting avbrutt etter %1$d fil(er).
+nbUploadedFiles = %1$d fil(er) lastet opp
+errDuringUpload = Opplastingen stoppet med feil
+errHttpResponse = Opplastingen feilet: uventet HTTP respons
+questionSendMailOnError = Det skjedde en feil under opplasting. \u00d8nsker du \u00e5 sende all relevant informasjon til webmaster? 
+
+#FilePanelDataModel
+colName = Navn
+colSize = St\u00f8rrelse
+colDirectory = Katalog
+colModified = Endret
+colReadable = Lesbar?
+errForbiddenExtension = Ugyldig filetternavn.
+
+#DefaultUploadPolicy
+errDuringLogManagement = Det skjedde en feil under loggbehandlingen
+
+#CoppermineFileUploadPolicy
+chooseAlbumFirst = V\u00e6r vennlig og velg et album f\u00f8rst
+coppermineUploadOk = Bildene har blitt korrekt lastet opp til serveren, i det valgte albumet.\n\nKlikk OK n\u00e5 for \u00e5 fullf\u00f8re opplastingen.\n\nIkke glem \u00e5 lagre eventuelle endringer du har gjort.
+
+#PictureFileData
+tooBigPicture = Bilde '%1$s' er for stort. Bildet vil bli lastet opp uten endringer (ingen rotering eller endring av st\u00f8rrelse ...).
+notAPicture = Filen '%1$s' er ikke en gyldig bildefil. Den er ikke lagt til i listen over filer som skal lastes opp.
+
+#PictureDialog
+buttonClose = Lukk
+
+#DateRenderer
+dateformat = dd.MM.yyyy HH:mm
+
+#SizeRenderer
+# See http://en.wikipedia.org/wiki/KiB
+unitBytes = b
+unitGigabytes = GiB
+unitMegabytes = MiB
+unitKilobytes = KiB
+
+#sendDebugInformation
+Confirm = Bekreft
+
+#InteractiveTrustManager
+itm_title_pass = Enter %1$s password
+itm_prompt_pass = %1$s password:
+itm_cert_alert = SSL Certificate Alert
+itm_cert_details = Certificate details:
+itm_cert_subject = Subject:
+itm_cert_issuer = Issuer:
+itm_cert_nbefore = Not before:
+itm_cert_nafter = Not after:
+itm_cert_serial = Serial:
+itm_cert_fprint = %1$s Fingerprint:
+itm_cert_C = Country:
+itm_cert_CN = Common name:
+itm_cert_L = Locality:
+itm_cert_ST = State or province:
+itm_cert_O = Organization:
+itm_cert_OU = Organizational unit:
+itm_reasons = Reason(s):
+itm_reason_cnmatch = The certificate common name does not match the hostname (%1$s).
+itm_reason_itrust = Certificate issuer is not trusted.
+itm_reason_expired = The certificate is expired.
+itm_reason_notyet = The certificate is not yet valid.
+itm_fail_verify = The certificate, presented by the server could not be verified.
+itm_accept_prompt = Do you want to accept this certificate?
+itm_accept_always = Always
+itm_accept_now = Only for this session
+itm_accept_no = No
+itm_new_tstore = New TrustStore
+itm_tstore = TrustStore

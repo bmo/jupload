@@ -1,0 +1,41 @@
+8
+
+dir
+478
+https://jupload.svn.sourceforge.net/svnroot/jupload/trunk/jupload2/src/conf
+https://jupload.svn.sourceforge.net/svnroot/jupload
+
+
+
+2007-09-11T10:56:49.685006Z
+325
+etienne_sf
+has-props
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+35eed6a1-492f-0410-aaa5-912e50059252
+
+mimetypes.properties
+file
+
+
+
+
+2008-06-13T17:25:35.000000Z
+79fdb91f2fd010e8cce21cd2beae6dae
+2007-04-17T20:25:35.000000Z
+76
+etienne_sf
+has-props
+

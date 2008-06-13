@@ -1,0 +1,52 @@
+8
+
+dir
+478
+https://jupload.svn.sourceforge.net/svnroot/jupload/trunk/jupload2/src/wjhk/jupload2/upload/helper
+https://jupload.svn.sourceforge.net/svnroot/jupload
+
+
+
+2008-04-16T07:58:02.116617Z
+441
+etienne_sf
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+35eed6a1-492f-0410-aaa5-912e50059252
+
+ByteArrayEncoder.java
+file
+
+
+
+
+2008-06-13T17:25:34.000000Z
+66f9fe1e328681b0e09ab4bb2aa32421
+2008-04-16T07:58:02.116617Z
+441
+etienne_sf
+
+ByteArrayEncoderHTTP.java
+file
+
+
+
+
+2008-06-13T17:25:34.000000Z
+333c9ac6c6de8f26c70ae879f731c780
+2008-04-16T07:58:02.116617Z
+441
+etienne_sf
+

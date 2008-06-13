@@ -1,0 +1,52 @@
+8
+
+dir
+478
+https://jupload.svn.sourceforge.net/svnroot/jupload/trunk/jupload2/src/wjhk/jupload2/filedata/helper
+https://jupload.svn.sourceforge.net/svnroot/jupload
+
+
+
+2008-06-05T12:25:47.772105Z
+476
+etienne_sf
+has-props
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+35eed6a1-492f-0410-aaa5-912e50059252
+
+ImageHelper.java
+file
+
+
+
+
+2008-06-13T17:25:35.000000Z
+1134aa7a4dcaff3d2a3b751f86751d5f
+2008-06-05T12:25:47.772105Z
+476
+etienne_sf
+
+ImageReaderWriterHelper.java
+file
+
+
+
+
+2008-06-13T17:25:35.000000Z
+72a00cbd6441132b4704995799d81d11
+2008-04-16T07:58:02.116617Z
+441
+etienne_sf
+

@@ -1,0 +1,103 @@
+#
+# Italian translation.
+#
+# Maintainer: Manuele Grueff mgrueff@atipica.it
+#
+# The %1$d (and similar) code sequences are placeholders for variable substitution,
+# The sequence %% represents a single percent-character.
+
+#JUploadPanel
+buttonBrowse = Sfoglia...
+buttonRemoveSelected = Rimuovi selezionati
+buttonRemoveAll = Rimuovi tutto
+buttonRotateLeft = Ruota a sinistra
+buttonRotateRight = Ruota a destra
+buttonUpload = Carica
+buttonStop = FERMA
+#JUploadPanel, The components of the status line
+speedunit_gb_per_second = Gb/s
+speedunit_mb_per_second = Mb/s
+speedunit_kb_per_second = Kb/s
+speedunit_b_per_second = b/s
+timefmt_hms = %1$d ore, %2$d min. e %3$d sec.
+timefmt_ms = %1$d min. e %2$d sec.
+timefmt_s = %1$d secondi
+timefmt_unknown = sconosciuto
+status_msg = JUpload %1$d%% eseguito, Velocit&#225;: %2$,3.2f %3$s, Tempo rimanente: %4$s
+
+#JUploadExceptionTooBigFile
+errFileTooBig = La lunghezza del file '%1$s' &#232; eccessiva (%2$d byte)
+
+#FileUploadThread
+preparingFile = Preparazione file %1$d/%2$d
+infoUploading = Caricamento dei file %1$s
+infoUploaded = File %1$s pubblicato/i. In attesa della risposta del server ...
+infoAborted = Upload interrotto dopo %1$d file.
+nbUploadedFiles = %1$d file pubblicati
+errDuringUpload = Upload bloccato per errori
+errHttpResponse= La risposta del server HTTP ha segnalato un errore. L\'upload &#232; fallito.
+questionSendMailOnError = Si &#232; verificato un errore durante l\'upload. Vuoi segnalarlo al tuo webmaster?
+
+#FilePanelDataModel
+colName = Nome
+colSize = Dimensioni
+colDirectory = Cartella
+colModified = Ultima modifica
+colReadable = Leggibile?
+errForbiddenExtension = Estensione file non consentita.
+
+#DefaultUploadPolicy
+errDuringLogManagement = Si &#232; verificato un errore durante il log
+
+#CoppermineFileUploadPolicy
+chooseAlbumFirst = Per favore scegli prima un album.
+coppermineUploadOk = Le immagini sono state caricate correttamente nel server, nell\'album selezionato\n\nClicca su Ok per associare nomi e commenti alle immagini.\n\nNon dimenticare di cliccare sul bottone 'Apply modification' per salvare le tue modifiche sul server!
+
+#PictureFileData
+tooBigPicture = L\'immagine '%1$s' &#232; troppo grande. Sar&#225; caricato senza modifiche (rotazione, ridimensionamento...).
+notAPicture = Il file chiamato '%1$s' non &#232; un\'immagine. Non &#232; stato aggiunto alla lista dei files caricati.
+
+#PictureDialog
+buttonClose = Chiudi
+
+#DateRenderer
+dateformat = dd-MM-yyyy hh:mm aaa
+
+#SizeRenderer. See http://en.wikipedia.org/wiki/KiB
+unitBytes = b
+unitGigabytes = Gb
+unitMegabytes = Mb
+unitKilobytes = Kb
+
+#sendDebugInformation
+Confirm = Conferma
+
+#InteractiveTrustManager
+itm_title_pass = Inserisci %1$s password
+itm_prompt_pass = %1$s password:
+itm_cert_alert = Avviso certificato SSL
+itm_cert_details = Dettagli del certificato:
+itm_cert_subject = Soggetto:
+itm_cert_issuer = Autorità che lo rilascia:
+itm_cert_nbefore = Valido a partire da:
+itm_cert_nafter = Valido fino a:
+itm_cert_serial = Serial:
+itm_cert_fprint = %1$s Fingerprint:
+itm_cert_C = Nazione (C):
+itm_cert_CN = Common name (CN):
+itm_cert_L = Localit&#225; (L):
+itm_cert_ST = Stato o provincia (ST):
+itm_cert_O = Organizzazione (O):
+itm_cert_OU = Unità organizzazionale (OU):
+itm_reasons = Ragioni:
+itm_reason_cnmatch = Il common name del certificato non corrisponde allo hostname (%1$s).
+itm_reason_itrust = L'autorità che ha rilasciato il certificato non &#232; affidabile.
+itm_reason_expired = Il certificato &#232; scaduto.
+itm_reason_notyet = Il certificato non &#232; ancora valido.
+itm_fail_verify = Non &#232; stato possibile verificare Il certificato fornito dal server.
+itm_accept_prompt = Volete accettare questo certificato?
+itm_accept_always = Sempre
+itm_accept_now = Solo per questa sessione
+itm_accept_no = No
+itm_new_tstore = Nuovo TrustStore
+itm_tstore = TrustStore

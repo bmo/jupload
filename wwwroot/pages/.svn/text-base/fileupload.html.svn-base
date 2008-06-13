@@ -1,0 +1,11 @@
+<FORM action="http://localhost:8080/jupload/pages/parseRequest.jsp?URLParam=URL Parameter Value"
+     enctype="multipart/form-data"
+     method="post">
+ <P>
+ Form Parameter<BR> 
+  <INPUT type="text" name="formParam" value="Form Parameter Value"><BR>
+ Upload Files<BR>
+  <INPUT type="file" name="uploadFile1"><BR>
+  <INPUT type="file" name="uploadFile2"><BR>
+ <INPUT type="reset"> <INPUT type="submit" value="Submit">
+</FORM>

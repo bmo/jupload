@@ -1,0 +1,40 @@
+8
+
+dir
+478
+https://jupload.svn.sourceforge.net/svnroot/jupload/trunk/jupload2/.externalToolBuilders
+https://jupload.svn.sourceforge.net/svnroot/jupload
+
+
+
+2008-04-25T11:14:20.053166Z
+454
+etienne_sf
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+35eed6a1-492f-0410-aaa5-912e50059252
+
+Ant Builder.launch
+file
+
+
+
+
+2008-06-13T17:25:36.000000Z
+c983eb98bd79d1ff3111076a4141f24c
+2008-04-25T11:14:20.053166Z
+454
+etienne_sf
+

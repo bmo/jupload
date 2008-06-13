@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svnroot/jupload/!svn/ver/477/trunk/jupload2/src/wjhk/jupload2/policies
+END
+FileByFileUploadPolicy.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svnroot/jupload/!svn/ver/441/trunk/jupload2/src/wjhk/jupload2/policies/FileByFileUploadPolicy.java
+END
+PictureUploadPolicy.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svnroot/jupload/!svn/ver/441/trunk/jupload2/src/wjhk/jupload2/policies/PictureUploadPolicy.java
+END
+UploadPolicy.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svnroot/jupload/!svn/ver/477/trunk/jupload2/src/wjhk/jupload2/policies/UploadPolicy.java
+END
+CoppermineUploadPolicy.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svnroot/jupload/!svn/ver/441/trunk/jupload2/src/wjhk/jupload2/policies/CoppermineUploadPolicy.java
+END
+DefaultUploadPolicy.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svnroot/jupload/!svn/ver/477/trunk/jupload2/src/wjhk/jupload2/policies/DefaultUploadPolicy.java
+END
+FilesTogetherUploadPolicy.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svnroot/jupload/!svn/ver/441/trunk/jupload2/src/wjhk/jupload2/policies/FilesTogetherUploadPolicy.java
+END
+UploadPolicyFactory.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svnroot/jupload/!svn/ver/441/trunk/jupload2/src/wjhk/jupload2/policies/UploadPolicyFactory.java
+END
+CustomizedNbFilesPerRequestUploadPolicy.java
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svnroot/jupload/!svn/ver/441/trunk/jupload2/src/wjhk/jupload2/policies/CustomizedNbFilesPerRequestUploadPolicy.java
+END
+package.html
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/jupload/!svn/ver/449/trunk/jupload2/src/wjhk/jupload2/policies/package.html
+END

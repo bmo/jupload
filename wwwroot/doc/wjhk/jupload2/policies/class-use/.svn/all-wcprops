@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svnroot/jupload/!svn/ver/478/trunk/jupload2/wwwroot/doc/wjhk/jupload2/policies/class-use
+END
+UploadPolicyFactory.html
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svnroot/jupload/!svn/ver/478/trunk/jupload2/wwwroot/doc/wjhk/jupload2/policies/class-use/UploadPolicyFactory.html
+END
+CustomizedNbFilesPerRequestUploadPolicy.html
+K 25
+svn:wc:ra_dav:version-url
+V 134
+/svnroot/jupload/!svn/ver/478/trunk/jupload2/wwwroot/doc/wjhk/jupload2/policies/class-use/CustomizedNbFilesPerRequestUploadPolicy.html
+END
+FileByFileUploadPolicy.html
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svnroot/jupload/!svn/ver/478/trunk/jupload2/wwwroot/doc/wjhk/jupload2/policies/class-use/FileByFileUploadPolicy.html
+END
+PictureUploadPolicy.html
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svnroot/jupload/!svn/ver/478/trunk/jupload2/wwwroot/doc/wjhk/jupload2/policies/class-use/PictureUploadPolicy.html
+END
+UploadPolicy.html
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svnroot/jupload/!svn/ver/478/trunk/jupload2/wwwroot/doc/wjhk/jupload2/policies/class-use/UploadPolicy.html
+END
+CoppermineUploadPolicy.html
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svnroot/jupload/!svn/ver/478/trunk/jupload2/wwwroot/doc/wjhk/jupload2/policies/class-use/CoppermineUploadPolicy.html
+END
+DefaultUploadPolicy.html
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svnroot/jupload/!svn/ver/478/trunk/jupload2/wwwroot/doc/wjhk/jupload2/policies/class-use/DefaultUploadPolicy.html
+END
+FilesTogetherUploadPolicy.html
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svnroot/jupload/!svn/ver/478/trunk/jupload2/wwwroot/doc/wjhk/jupload2/policies/class-use/FilesTogetherUploadPolicy.html
+END

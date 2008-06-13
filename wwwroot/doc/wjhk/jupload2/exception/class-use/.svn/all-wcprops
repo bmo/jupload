@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/jupload/!svn/ver/478/trunk/jupload2/wwwroot/doc/wjhk/jupload2/exception/class-use
+END
+JUploadException.html
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svnroot/jupload/!svn/ver/478/trunk/jupload2/wwwroot/doc/wjhk/jupload2/exception/class-use/JUploadException.html
+END
+JUploadExceptionStopAddingFiles.html
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svnroot/jupload/!svn/ver/478/trunk/jupload2/wwwroot/doc/wjhk/jupload2/exception/class-use/JUploadExceptionStopAddingFiles.html
+END
+JUploadExceptionTooBigFile.html
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svnroot/jupload/!svn/ver/478/trunk/jupload2/wwwroot/doc/wjhk/jupload2/exception/class-use/JUploadExceptionTooBigFile.html
+END
+JUploadIOException.html
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svnroot/jupload/!svn/ver/478/trunk/jupload2/wwwroot/doc/wjhk/jupload2/exception/class-use/JUploadIOException.html
+END
+JUploadExceptionUploadFailed.html
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svnroot/jupload/!svn/ver/478/trunk/jupload2/wwwroot/doc/wjhk/jupload2/exception/class-use/JUploadExceptionUploadFailed.html
+END

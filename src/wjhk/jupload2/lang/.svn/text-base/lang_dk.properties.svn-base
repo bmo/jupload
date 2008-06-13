@@ -1,0 +1,103 @@
+#
+# This file contains a value for each key. In Danish.
+#
+# Maintainer: Jeppe Bundsgaard
+#
+# The %1$d (and similar) code sequences are placeholders for varable substitution,
+# The sequence %% represents a single percent-character. 
+
+#JUploadPanel
+buttonBrowse = S\u00f8g ...
+buttonRemoveSelected = Fjern valgte
+buttonRemoveAll = Fjern alle
+buttonRotateLeft = Roter mod uret
+buttonRotateRight = Roter med uret
+buttonUpload = Upload
+buttonStop = STOP
+#JUploadPanel, The components of the status line
+#MISSING speedunit_gb_per_second = Gb/s
+#MISSING speedunit_mb_per_second = Mb/s
+#MISSING speedunit_kb_per_second = Kb/s
+#MISSING speedunit_b_per_second = b/s
+#MISSING timefmt_hms = %1$dh, %2$d min. and %3$d sec.
+#MISSING timefmt_ms = %1$d min. and %2$d sec.
+#MISSING timefmt_s = %1$d seconds
+#MISSING timefmt_unknown = unknown
+#MISSING status_msg = JUpload %1$d%% done, Transfer rate: %2$,3.2f %3$s, ETA: %4$s
+
+#JUploadExceptionTooBigFile
+#MISSING errFileTooBig = The file length for '%1$s' is too big (%2$d bytes)
+
+#FileUploadThread
+preparingFile = Forbereder fil %1$d/%2$d
+infoUploading = Uploader filer %1$s
+infoUploaded = Filen/filerne %1$s er uploadet. Venter p\u00e5 serversvar ...
+#MISSING infoAborted = Upload aborted after %1$d File(s).
+nbUploadedFiles = %1$d filer uploadet
+errDuringUpload = Upload stoppede med fejl
+errHttpResponse= Serverens HTTP-svar m\u00f8der ikke succeskriterierne. Uploaden fejlede.
+questionSendMailOnError = En fejl opstod under upload. Vil du sende al relevant information til webmasteren?
+
+#FilePanelDataModel
+colName = Navn
+colSize = St\u00f8rrelse
+colDirectory = Mappe
+colModified = \u00c6ndret
+colReadable = L\u00e6sbar?
+errForbiddenExtension = Ulovlig fil endelse.
+
+#DefaultUploadPolicy
+errDuringLogManagement = En fejl opstod under log-h\u00e5ndteringen
+
+#CoppermineFileUploadPolicy
+chooseAlbumFirst = V\u00e6lg venligst et album f\u00f8rst.
+coppermineUploadOk = Billederne er blevet lagt op p\u00e5 serveren i det valgte album.\n\nKlik p\u00e5 Ok nu for at associere navne og kommentarer til disse billeder.\n\nGlem ikke at klikke p\u00e5 \u2018Udf\u00f8r \u00e6ndringer\u2019-knappen for at gemme dine \u00e6ndringer p\u00e5 serveren! 
+
+#PictureFileData
+tooBigPicture = Billedet '%1$s' er for stort. Det bliver uploadet u\u00e6ndret (ingen rotation, st\u00f8rrelses\u00e6ndring...).
+notAPicture = Filen med navnet '%1$s' er ikke et billede. Det er ikke tilf\u00f8jet til listen af filer der skal uploades. 
+
+#PictureDialog
+buttonClose = Luk
+
+#DateRenderer
+#MISSING dateformat = yyyy-MM-dd hh:mm aaa
+
+#SizeRenderer. See http://en.wikipedia.org/wiki/KiB
+#MISSING unitBytes = b
+#MISSING unitGigabytes = GiB
+#MISSING unitMegabytes = MiB
+#MISSING unitKilobytes = KiB
+
+#sendDebugInformation
+#MISSING Confirm = Confirm
+
+#InteractiveTrustManager
+#MISSING itm_title_pass = Enter %1$s password
+#MISSING itm_prompt_pass = %1$s password:
+#MISSING itm_cert_alert = SSL Certificate Alert
+#MISSING itm_cert_details = Certificate details:
+#MISSING itm_cert_subject = Subject:
+#MISSING itm_cert_issuer = Issuer:
+#MISSING itm_cert_nbefore = Not before:
+#MISSING itm_cert_nafter = Not after:
+#MISSING itm_cert_serial = Serial:
+#MISSING itm_cert_fprint = %1$s Fingerprint:
+#MISSING itm_cert_C = Country:
+#MISSING itm_cert_CN = Common name:
+#MISSING itm_cert_L = Locality:
+#MISSING itm_cert_ST = State or province:
+#MISSING itm_cert_O = Organization:
+#MISSING itm_cert_OU = Organizational unit:
+#MISSING itm_reasons = Reason(s):
+#MISSING itm_reason_cnmatch = The certificate common name does not match the hostname (%1$s).
+#MISSING itm_reason_itrust = Certificate issuer is not trusted.
+#MISSING itm_reason_expired = The certificate is expired.
+#MISSING itm_reason_notyet = The certificate is not yet valid.
+#MISSING itm_fail_verify = The certificate, presented by the server could not be verified.
+#MISSING itm_accept_prompt = Do you want to accept this certificate?
+#MISSING itm_accept_always = Always
+#MISSING itm_accept_now = Only for this session
+#MISSING itm_accept_no = No
+#MISSING itm_new_tstore = New TrustStore
+#MISSING itm_tstore = TrustStore

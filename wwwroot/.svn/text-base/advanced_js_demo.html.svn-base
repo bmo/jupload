@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>JUpload - File Upload Applet (advanced js demo)</title>
+</head> 
+<body> 
+<!-- --------------------------------------------------------------------------------------------------- -->
+<!-- --------     A DUMMY APPLET, THAT ALLOWS THE NAVIGATOR TO CHECK THAT JAVA IS INSTALLED   ---------- -->
+<!-- --------               If no Java: Java installation is prompted to the user.            ---------- -->
+<!-- --------------------------------------------------------------------------------------------------- -->
+<!--"CONVERTED_APPLET"--> 
+<!-- HTML CONVERTER -->
+<script language="JavaScript" type="text/javascript"><!--
+    var _info = navigator.userAgent;
+    var _ns = false;
+    var _ns6 = false;
+    var _ie = (_info.indexOf("MSIE") > 0 && _info.indexOf("Win") > 0 && _info.indexOf("Windows 3.1") < 0);
+//--></script>
+    <comment>
+        <script language="JavaScript" type="text/javascript"><!--
+        var _ns = (navigator.appName.indexOf("Netscape") >= 0 && ((_info.indexOf("Win") > 0 && _info.indexOf("Win16") < 0 && java.lang.System.getProperty("os.version").indexOf("3.5") < 0) || (_info.indexOf("Sun") > 0) || (_info.indexOf("Linux") > 0) || (_info.indexOf("AIX") > 0) || (_info.indexOf("OS/2") > 0) || (_info.indexOf("IRIX") > 0)));
+        var _ns6 = ((_ns == true) && (_info.indexOf("Mozilla/5") >= 0));
+//--></script>
+    </comment>
+
+<script language="JavaScript" type="text/javascript"><!--
+    if (_ie == true) document.writeln('<object classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93" WIDTH = "0" HEIGHT = "0" NAME = "JUploadApplet"  codebase="http://java.sun.com/update/1.5.0/jinstall-1_5-windows-i586.cab#Version=5,0,0,3"><noembed><xmp>');
+    else if (_ns == true && _ns6 == false) document.writeln('<embed ' +
+	    'type="application/x-java-applet;version=1.5" \
+            CODE = "wjhk.jupload2.EmptyApplet" \
+            ARCHIVE = "wjhk.jupload.jar" \
+            NAME = "JUploadApplet" \
+            WIDTH = "0" \
+            HEIGHT = "0" \
+            type ="application/x-java-applet;version=1.6" \
+            scriptable ="false" ' +
+	    'scriptable=false ' +
+	    'pluginspage="http://java.sun.com/products/plugin/index.html#download"><noembed><xmp>');
+//--></script>
+<applet  CODE = "wjhk.jupload2.EmptyApplet" ARCHIVE = "wjhk.jupload.jar" WIDTH = "0" HEIGHT = "0" NAME = "JUploadApplet"></xmp>
+    <PARAM NAME = CODE VALUE = "wjhk.jupload2.EmptyApplet" >
+    <PARAM NAME = ARCHIVE VALUE = "wjhk.jupload.jar" >
+    <PARAM NAME = NAME VALUE = "JUploadApplet" >
+    <param name="type" value="application/x-java-applet;version=1.5">
+    <param name="scriptable" value="false">
+    <PARAM NAME = "type" VALUE="application/x-java-applet;version=1.6">
+    <PARAM NAME = "scriptable" VALUE="false">
+
+</xmp>
+    
+Java 1.5 or higher plugin required.
+</applet>
+</noembed>
+</embed>
+</object>
+
+<!--
+<APPLET CODE = "wjhk.jupload2.EmptyApplet" ARCHIVE = "wjhk.jupload.jar" WIDTH = "0" HEIGHT = "0" NAME = "JUploadApplet">
+	<PARAM NAME = "type" VALUE="application/x-java-applet;version=1.6">
+	<PARAM NAME = "scriptable" VALUE="false">
+	</xmp>
+Java 1.5 or higher plugin required.
+</APPLET>
+-->
+<!-- "END_CONVERTED_APPLET" -->
+<!-- ---------------------------------------------------------------------------------------------------- -->
+<!-- --------------------------     END OF THE DUMMY APPLET TAG            ------------------------------ -->
+<!-- ---------------------------------------------------------------------------------------------------- -->
+
+<H2>In this page, you can test all the applet parameters !</H2>
+<P><B>Caution:</B> The upload will work only if a valid postURL parameter is given.  By default, postURL points to 
+sourceforge.jupload.net. <BR>That also can be a Tomcat server, where the wwwroot webapp of  jupload is deployed.</P>
+<P>See the <a href="howto-customization.html#parameters">parameters list</a>, in the 
+<a href="howto-customization.html#parameters">HowTo customize it</a> page, for all details on the applet parameters.</P>
+
+<P>To add files to the applet, you can either drop files on it or browse to find them. Then you can <B>upload files by</B>:</P>
+<DIR>
+<LI> Clicking on the upload button, on the applet,
+<LI> Using the FilesTogetherUploadPolicy: upload will start as soon as you dropped file(s) onto it,
+<LI> Using this <A HREF="javascript:doUpload();">javascript link</A>, thanks to <a href="http://sourceforge.net/users/huotte/">huotte</a>.
+</DIR>
+
+
+<script language="javascript" src="common.js" type="text/javascript"> </script>
+<div align="center">
+<script language="JavaScript" type="text/javascript">
+
+	//All managed parameters are below, with there default value :
+	appletWidth = "640";
+	appletHeight = "300";
+
+	postURL = "http://jupload.sourceforge.net/upload_dummy.php";
+	urlToSendErrorTo = ""; //Careful: log info will be truncated, if sent to a mailto: link.
+	uploadPolicy = "";
+	
+	afterUploadTarget = "";
+	afterUploadURL = "";
+	allowHttpPersistent = "";
+	allowedFileExtensions = "";
+	debugLevel = "";
+	fileChooserIconFromFileContent = "";
+	fileChooserIconSize = "";
+	fileChooserImagePreview = "";
+	filenameEncoding = "";
+	formdata = "";
+	highQualityPreview = "";
+	lang = "";
+	lookAndFeel = "";
+	maxChunkSize = "500000";
+	maxFileSize = "";
+	maxPicHeight = "";
+	maxPicWidth = "";
+	nbFilesPerRequest = "";
+	pictureTransmitMetadata = "";
+	realMaxPicHeight = "";
+	realMaxPicWidth = "";
+	serverProtocol = "HTTP/1.1";
+	showLogWindow = "";
+	showStatusBar = "";
+	specificHeaders = "";
+	sslVerifyCert = "";
+	stringUploadError = "";
+	stringUploadSuccess = "";
+
+	//Some parameters can only be choosen from an existing list:
+	uploadPolicyList = ["", "DefaultUploadPolicy", "FileByFileUploadPolicy", "PictureUploadPolicy", "CoppermineUploadPolicy", "FilesTogetherUploadPolicy"];
+	//eo: esperanto
+	//hr: croatian
+	//il: hebrew
+	langList = ["", "br", "cr", "cz", "de", "dk", "en", "eo", "es", "fr", "hr", "il", "it", "ja", "nl", "no"
+				, "pl", "pt", "pt_BR", "ru", "se", "si", "tk", "us", "zh"];
+	serverProtocolList = ["", "HTTP/0.9", "HTTP/1.0", "HTTP/1.1", "FTP"]; 
+
+	function writeInputText (name, value, comment) {
+		document.write('	<tr><td align="center">');
+		document.write('<B>' + name + '</B>');
+		if (comment != "") {
+			document.write(" (" + comment + ")");	
+		}
+		document.write('</td><td><INPUT TYPE="TEXT" NAME="');
+		document.write(name);
+		document.write('"');
+		if (value != "") {
+			document.write(' VALUE="');
+			document.write(value);
+			document.write('" ');
+		}
+		document.writeln(	'></td></tr>');
+	}//writeInputText
+
+	function writeInputSelect (name, value, list, comment) {
+		document.write('	<tr><td align="center">');
+		document.write('<B>' + name + '</B>');
+		if (comment != '') {
+			document.write(" (" + comment + ")");
+		}
+		document.write('</td><td><SELECT NAME="');
+		document.write(name);
+		document.writeln('">');
+
+		for (i=0; i<list.length; i += 1) {
+			document.write('<OPTION');
+			if (value == list[i]) {
+				document.write(' SELECTED');
+			}
+			document.write('>');
+			document.writeln(list[i]);
+		}
+		document.writeln(	'</SELECT></td></tr>');
+	}//writeInputText
+
+	function writeBooleanInputSelect (name, value, comment) {
+		writeInputSelect(name, value, ["", "false", "true"], comment);
+	}
+	
+	function writeParam (param, value) {
+		if (value != undefined && value != "") {
+			document.write('   <param name="');
+			document.write(param);
+			document.write('" VALUE="');
+			document.write(value);
+			document.writeln('" >');
+		}
+	}//writeParam
+
+	
+	//First: get possible URL parameters.
+	reQuery = new RegExp ("[\?](.*)&?");
+	reQuery.exec(location.href);
+	query = RegExp.$1;
+	
+	//Then, get each parameter
+	reParam = /([^&]*)=([^&]*)&?/g;
+	array = reParam.exec(query);
+	while (array != null) {
+		val = unescape(array[2]);
+		//unescape won't manage +
+		val = String(val).replace(/\+/g, " ");
+		
+		//array[1] contains the parameter name.
+		//val contains its value, to be set.
+		eval(array[1] + ' = val');
+
+		array = reParam.exec(query);
+	}//while
+
+	if (appletWidth=="") {
+		appletWidth = "640";
+	}
+	if (appletHeight=="") {
+		appletHeight = "300";
+	}
+
+	//Let's write one APPLET tag for the selected language	
+	document.writeln('<P><APPLET ');
+	document.writeln('	CODE    = "wjhk.jupload2.JUploadApplet" ');
+	document.writeln('	ARCHIVE = "wjhk.jupload.jar, jakarta-commons-oro.jar, jakarta-commons-net.jar" ');
+	document.writeln('	WIDTH   = "' + appletWidth + '" ');
+	document.writeln('	HEIGHT  = "' + appletHeight + '"');
+	document.writeln('	NAME = "jupload" ');
+	document.writeln('	MAYSCRIPT >');
+	writeParam("postURL", postURL);
+	writeParam("uploadPolicy", uploadPolicy);
+
+	writeParam("afterUploadTarget", afterUploadTarget);
+	writeParam("afterUploadURL", afterUploadURL);
+	writeParam("allowHttpPersistent", allowHttpPersistent);
+	writeParam("debugLevel", debugLevel);
+	writeParam("fileChooserIconFromFileContent", fileChooserIconFromFileContent);
+	writeParam("fileChooserIconSize", fileChooserIconSize);
+	writeParam("fileChooserImagePreview", fileChooserImagePreview);
+	writeParam("filenameEncoding", filenameEncoding);
+	writeParam("formdata", formdata);
+	writeParam("lang", lang);
+	writeParam("lookAndFeel", lookAndFeel);
+	writeParam("nbFilesPerRequest", nbFilesPerRequest);
+	writeParam("maxChunkSize", maxChunkSize);
+	writeParam("maxFileSize", maxFileSize);
+	writeParam("maxPicHeight", maxPicHeight);
+	writeParam("pictureTransmitMetadata", pictureTransmitMetadata);
+	writeParam("realMaxPicHeight", realMaxPicHeight);
+	writeParam("realMaxPicWidth", realMaxPicWidth);
+	writeParam("showLogWindow", showLogWindow);
+	writeParam("showStatusBar", showStatusBar);
+	writeParam("specificHeaders", specificHeaders);
+	writeParam("sslVerifyCert", sslVerifyCert);
+	writeParam("stringUploadError", stringUploadError);
+	writeParam("stringUploadSuccess", stringUploadSuccess);
+	writeParam("urlToSendErrorTo", urlToSendErrorTo);
+	document.writeln('Java 1.5 or higher plugin required.');
+	document.writeln('</APPLET>');
+
+
+	// A sample doUpload javascript, to show how javascript can be used to control the upload.
+	function doUpload() {
+		document.jupload.startUpload();	
+	}
+
+
+	//First the form, with default values given by the query parameters.
+	document.writeln('<FORM>');
+
+	//Main parameters	
+	document.writeln('<HR>');
+	document.writeln('<H3>Main applet parameters</H3>');
+	document.writeln('<TABLE BORDER=0 CELLSPACING=0 CELLPADING=0><TR><TD><TABLE BORDER=0>');
+	writeInputText("postURL", postURL, "<U>defines where the target URL for the uploaded files</U>; you can put http, https and ftp URL here; " +
+		"deploy wwwroot on an application server, and try the wwwroot/pages/parseRequest.jsp java upload demo.");
+	writeInputText("maxChunkSize", maxChunkSize, "allows the applet to split the uploaded files in chunks: you can override the server maxUploadSize with this parameter");
+	document.writeln('</TABLE></TD><TD><TABLE BORDER=0>');
+	writeInputSelect("uploadPolicy", uploadPolicy, uploadPolicyList, '');
+	writeInputText("maxFileSize", maxFileSize, "");
+	writeInputText("nbFilesPerRequest", nbFilesPerRequest, "");
+	document.writeln('</TABLE></TD></TR></TABLE>');
+
+	//Global parameters: control of the applet display
+	document.writeln('<HR>');
+	document.writeln('<H3>Parameters to control the applet display</H3>');
+	document.writeln('<TABLE><TR><TD><TABLE BORDER=0>');
+	writeInputText("appletHeight", appletHeight, "forced to 300 in this sample, if empty");
+	writeInputText("appletWidth", appletWidth, "forced to 640 in this sample, if empty");
+	writeInputText("debugLevel", debugLevel, "a number between 0 and 100. <BR>If 0 and an error occurs: forced to 1");
+	document.writeln('</TABLE></TD><TD><TABLE BORDER=0>');
+	writeInputSelect("lang", lang, langList, 'Japanese needs specific JRE extension');
+	writeInputText("lookAndFeel", lookAndFeel, "empty, java or system; see also UIManager.setLookAndFeel");
+	writeBooleanInputSelect("showLogWindow", showLogWindow, "ignored if debugLevel >= 1");
+	writeBooleanInputSelect("showStatusBar", showStatusBar, "");
+	document.writeln('</TABLE></TD></TR></TABLE>');
+
+	//Other global parameters	
+	document.writeln('<HR>');
+	document.writeln('<H3>Other global parameters</H3>');
+	document.writeln('<TABLE BORDER=0><TR><TD><TABLE BORDER=0>');
+	writeInputText("afterUploadTarget", afterUploadTarget, "");
+	writeInputText("afterUploadURL", afterUploadURL, "");
+	writeInputText("allowedFileExtensions", allowedFileExtensions, "");
+	writeBooleanInputSelect("allowHttpPersistent", allowHttpPersistent, "");
+	writeInputText("filenameEncoding", filenameEncoding, "");
+	document.writeln('</TABLE></TD><TD><TABLE BORDER=0>');
+	writeInputText("formdata", formdata, "");
+	writeInputSelect("serverProtocol", serverProtocol, serverProtocolList, '');
+	writeInputText("stringUploadError", stringUploadError, "");
+	writeInputText("stringUploadSuccess", stringUploadSuccess, "");
+	writeInputText("specificHeaders", specificHeaders, "");
+	writeInputText("sslVerifyCert", sslVerifyCert, "");
+	writeInputText("urlToSendErrorTo", urlToSendErrorTo, "");
+	document.writeln('</TABLE></TD></TR></TABLE>');
+
+	//Picture mode parameters	
+	document.writeln('<HR>');
+	document.writeln('<H3>Picture mode parameters</H3>');
+	document.writeln('<P>To use these parameters, you\'ll need to choose the PictureUploadPolicy,');
+	document.writeln('in the <I>main applet parameters</I>, here above.</P>');
+	document.writeln('<TABLE BORDER=0><TR><TD><TABLE BORDER=0>');
+	writeInputText("fileChooserIconFromFileContent", fileChooserIconFromFileContent, "");
+	writeInputText("fileChooserIconSize", fileChooserIconSize, "");
+	writeInputText("fileChooserImagePreview", fileChooserImagePreview, "");
+	writeBooleanInputSelect("highQualityPreview", highQualityPreview, '');	
+	writeBooleanInputSelect("pictureTransmitMetadata", pictureTransmitMetadata, '');	
+	document.writeln('</TABLE></TD><TD><TABLE BORDER=0>');
+	writeInputText("maxPicHeight", maxPicHeight, "");
+	writeInputText("maxPicWidth", maxPicWidth, "");
+	writeInputText("realMaxPicHeight", realMaxPicHeight, '');
+	writeInputText("realMaxPicWidth", realMaxPicWidth, '');
+	document.writeln('</TABLE></TD></TR></TABLE>');
+	document.writeln('<HR>');
+	document.writeln('<BR><input type="submit" value="Test with these parameters (don\'t forget to click on this button after parameters changes)"><BR><BR>');
+	document.writeln('</FORM>');
+
+</script> <script language="javascript" type=""> footer(); </script><script
+    language="javascript" src="timestamp.js" type="text/javascript"></script>
+</div>
+</body>
+</html>

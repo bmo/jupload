@@ -1,0 +1,96 @@
+8
+
+dir
+478
+https://jupload.svn.sourceforge.net/svnroot/jupload/trunk/jupload2/src/wjhk/jupload2
+https://jupload.svn.sourceforge.net/svnroot/jupload
+
+
+
+2008-06-05T13:06:40.537848Z
+477
+etienne_sf
+has-props
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+35eed6a1-492f-0410-aaa5-912e50059252
+
+lang
+dir
+
+gui
+dir
+
+upload
+dir
+
+EmptyApplet.java
+file
+
+
+
+
+2008-06-13T17:25:35.000000Z
+5c10ad501b4a3b886867462aceb7f201
+2007-05-28T20:24:01.571525Z
+205
+felfert
+
+JUploadApplet.java
+file
+
+
+
+
+2008-06-13T17:25:35.000000Z
+0b8d3ed76c6e67b67a4ce2437f92851e
+2008-06-05T13:06:40.537848Z
+477
+etienne_sf
+has-props
+
+JavascriptHandler.java
+file
+
+
+
+
+2008-06-13T17:25:35.000000Z
+a615b10ec20629026fd95fd5d6e5a4e8
+2008-04-18T21:42:00.378744Z
+443
+etienne_sf
+
+policies
+dir
+
+filedata
+dir
+
+exception
+dir
+
+package.html
+file
+
+
+
+
+2008-06-13T17:25:35.000000Z
+41c036eaff2636298916666c69f4849b
+2007-05-07T20:11:24.980488Z
+118
+felfert
+has-props
+

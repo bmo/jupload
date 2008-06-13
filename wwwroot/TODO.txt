@@ -1,0 +1,35 @@
+
+As always, a lot of things can be made better:
+
+TODO list:
+- Color problem, with some pictures. Here is my analysis:
+	- If pictureTransmitMetadata is false: no problem
+	- If picture is not resized nor rotated: no problem.
+	- If picture is rotated or rotated: both the picture and the vignette have color problem.
+	 
+
+- RESPONSE TO (can't repeat the problem): Another thing i noticed is, when you have nbFilesPerRequest > 1 than the
+maxFileSize directive isn't working proper, its uploading more per request
+than it should. (i set maxFileSize to the post_max_size in bytes right? i
+used 268435456 bytes = 256M)
+
+
+
+- Debug file output: should be enabled only in debug mode. Also: could be nice to have some more entries in the
+debug menu: paste debug output, open debug file... 
+- Check the wiki
+- Close file (see UploadFileData.getInputStream()) just after upload, and not when all files have been uploaded. 
+Currently: uploading 1000 files in one HTTP request leads to a 'too many files open' error. 
+- Check that files are correctly closed during upload (uploading 1000 files leads to a 'too many files open' error).
+- Depending on the camera configuration, metadata coming from Canon (10D, 20D, 30D) may not work with picture 
+resizing: colors of the picture resized are wrong. Prevent transmition of metadata, with the pictureTransmitMetadata 
+parameter corrects the problem: there is a big in the SUN JRE. TODO: make a sample, and create defect for SUN.
+- Picture mode: use the JMF and Java Advanced Image I/O
+- All error should result in a question to the user: do you want to send the error log?
+- Add (at least) a link to the sample in http://sourceforge.net/forum/forum.php?thread_id=1807811&forum_id=199107
+- Allows upload from the demo site, or inform that it doesn't work.
+- Picture mode: implement target picture format (to be changed to another name ?)
+- Picture mode: applet parameter to control the size of the preview on the file chooser.
+- Restore compatibility with standard Java application (it currently only works as an applet).
+- Remove support for the deprecated applet parameter filenameEncoding.
+- Also upload empty sub-directories (must be conditioned by a new applet parameter).

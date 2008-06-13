@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/jupload/!svn/ver/249/trunk/jupload2/lib/svn-ant
+END
+ganymed.jar
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svnroot/jupload/!svn/ver/244/trunk/jupload2/lib/svn-ant/ganymed.jar
+END
+svnClientAdapter.jar
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svnroot/jupload/!svn/ver/244/trunk/jupload2/lib/svn-ant/svnClientAdapter.jar
+END
+javasvn.jar
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svnroot/jupload/!svn/ver/244/trunk/jupload2/lib/svn-ant/javasvn.jar
+END
+svnant.jar
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/jupload/!svn/ver/244/trunk/jupload2/lib/svn-ant/svnant.jar
+END
+svnjavahl.jar
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svnroot/jupload/!svn/ver/244/trunk/jupload2/lib/svn-ant/svnjavahl.jar
+END
+readme.txt
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/jupload/!svn/ver/249/trunk/jupload2/lib/svn-ant/readme.txt
+END

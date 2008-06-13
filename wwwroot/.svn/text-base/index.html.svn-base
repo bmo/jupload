@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>JUpload - File Upload Applet</title>
+</head>
+<body>
+<script language="javascript" src="common.js" type="text/javascript"> </script>
+ 
+<center>
+<table width="640" cellpadding="7" cellspacing="0" border="0">
+    <tr>
+        <td align="center"><font face="arial" size="+1" color="red"><b><u>JUpload
+        - File Upload Applet</u></b></font></td>
+    </tr>
+    <tr>
+        <td><font face="arial" size="-1"></font></td>
+    </tr>
+    <tr>
+        <td align="center"><img src="images/jupload.gif" alt="" /></td>
+    </tr>
+    <tr>
+        <td><script language="javascript" type="text/javascript"> footer(); </script>
+        <script language="javascript" src="timestamp.js"
+            type="text/javascript"></script></td>
+    </tr>
+</table>
+</center>
+</body>
+</html>

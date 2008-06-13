@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>JUpload - File Upload Applet (basic mode demo)</title>
+</head>
+<body> 
+<script language="javascript" type="text/javascript"src="common.js" />
+<script language="javascript" type="text/javascript">
+	documentWriteEmptyApplet();
+</script>
+
+<center>
+<table width="640" cellpadding="7" cellspacing="0" border="0">
+    <tr>
+        <td colspan="2" align="center"><font face="arial" size="+1" color="red">
+        	<b><u>JUpload - File Upload Applet</u></b>
+        	</font>
+        </td>
+    </tr>
+    <tr height="20"></tr>
+    <tr>
+        <td colspan="2" bgcolor="#3F7C98">
+        <center><font color="#FFFFFF">The applet :
+        default mode </font></center>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" align="center">
+<!-- --------------------------------------------------------------------------------------------------- -->
+<!-- --------     A DUMMY APPLET, THAT ALLOWS THE NAVIGATOR TO CHECK THAT JAVA IS INSTALLED   ---------- -->
+<!-- --------               If no Java: Java installation is prompted to the user.            ---------- -->
+<!-- --------------------------------------------------------------------------------------------------- -->
+<!--"CONVERTED_APPLET"-->
+<!-- HTML CONVERTER -->
+<script language="JavaScript" type="text/javascript"><!--
+    var _info = navigator.userAgent;
+    var _ns = false;
+    var _ns6 = false;
+    var _ie = (_info.indexOf("MSIE") > 0 && _info.indexOf("Win") > 0 && _info.indexOf("Windows 3.1") < 0);
+//--></script>
+    <comment>
+        <script language="JavaScript" type="text/javascript"><!--
+        var _ns = (navigator.appName.indexOf("Netscape") >= 0 && ((_info.indexOf("Win") > 0 && _info.indexOf("Win16") < 0 && java.lang.System.getProperty("os.version").indexOf("3.5") < 0) || (_info.indexOf("Sun") > 0) || (_info.indexOf("Linux") > 0) || (_info.indexOf("AIX") > 0) || (_info.indexOf("OS/2") > 0) || (_info.indexOf("IRIX") > 0)));
+        var _ns6 = ((_ns == true) && (_info.indexOf("Mozilla/5") >= 0));
+//--></script>
+    </comment>
+
+<script language="JavaScript" type="text/javascript"><!--
+    if (_ie == true) document.writeln('<object classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93" WIDTH = "0" HEIGHT = "0" NAME = "JUploadApplet"  codebase="http://java.sun.com/update/1.5.0/jinstall-1_5-windows-i586.cab#Version=5,0,0,3"><noembed><xmp>');
+    else if (_ns == true && _ns6 == false) document.writeln('<embed ' +
+	    'type="application/x-java-applet;version=1.5" \
+            CODE = "wjhk.jupload2.EmptyApplet" \
+            ARCHIVE = "wjhk.jupload.jar" \
+            NAME = "JUploadApplet" \
+            WIDTH = "0" \
+            HEIGHT = "0" \
+            type ="application/x-java-applet;version=1.6" \
+            scriptable ="false" ' +
+	    'scriptable=false ' +
+	    'pluginspage="http://java.sun.com/products/plugin/index.html#download"><noembed><xmp>');
+//--></script>
+<applet  CODE = "wjhk.jupload2.EmptyApplet" ARCHIVE = "wjhk.jupload.jar" WIDTH = "0" HEIGHT = "0" NAME = "JUploadApplet"></xmp>
+    <PARAM NAME = CODE VALUE = "wjhk.jupload2.EmptyApplet" >
+    <PARAM NAME = ARCHIVE VALUE = "wjhk.jupload.jar" >
+    <PARAM NAME = NAME VALUE = "JUploadApplet" >
+    <param name="type" value="application/x-java-applet;version=1.5">
+    <param name="scriptable" value="false">
+    <PARAM NAME = "type" VALUE="application/x-java-applet;version=1.6">
+    <PARAM NAME = "scriptable" VALUE="false">
+
+</xmp>
+    
+Java 1.5 or higher plugin required.
+</applet>
+</noembed>
+</embed>
+</object>
+
+<!--
+<APPLET CODE = "wjhk.jupload2.EmptyApplet" ARCHIVE = "wjhk.jupload.jar" WIDTH = "0" HEIGHT = "0" NAME = "JUploadApplet">
+	<PARAM NAME = "type" VALUE="application/x-java-applet;version=1.6">
+	<PARAM NAME = "scriptable" VALUE="false">
+	</xmp>
+Java 1.5 or higher plugin required.
+</APPLET>
+-->
+<!-- "END_CONVERTED_APPLET" -->
+<!-- ---------------------------------------------------------------------------------------------------- -->
+<!-- --------------------------     END OF THE DUMMY APPLET TAG            ------------------------------ -->
+<!-- ---------------------------------------------------------------------------------------------------- -->
+
+
+<!---------------------------------------------------------------------------------------------------------
+-------------------     A SIMPLE AND STANDARD APPLET TAG, to call the JUpload applet  --------------------- 
+----------------------------------------------------------------------------------------------------------->
+        <applet
+	            code="wjhk.jupload2.JUploadApplet"
+	            name="JUpload"
+	            archive="wjhk.jupload.jar"
+	            width="640"
+	            height="300"
+	            mayscript
+	            alt="The java pugin must be installed.">
+            <!-- param name="CODE"    value="wjhk.jupload2.JUploadApplet" / -->
+            <!-- param name="ARCHIVE" value="wjhk.jupload.jar" / -->
+            <!-- param name="type"    value="application/x-java-applet;version=1.5" /  -->
+            <param name="postURL" value="upload_dummy.php" />
+            Java 1.5 or higher plugin required. 
+        </applet>
+<!-- --------------------------------------------------------------------------------------------------------
+----------------------------------     END OF THE APPLET TAG    ---------------------------------------------
+---------------------------------------------------------------------------------------------------------- -->
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" bgcolor="#3F7C98">
+        <center><font color="#FFFFFF">Applet Parameters</font></center>
+        </td>
+    </tr>
+    <tr>
+        <td>Post URL:</td>
+        <td bgcolor="FFFFFF">upload_dummy.php</td>
+    </tr>
+    <!-- footer -->
+    <tr>
+        <td colspan="2"><script language="javascript"
+            type="text/javascript"> footer(); </script> <script
+            language="javascript" src="timestamp.js"
+            type="text/javascript"></script></td>
+    </tr>
+</table>
+</center>
+</body>
+</html>

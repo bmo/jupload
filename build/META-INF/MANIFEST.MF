@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.7.0
+Created-By: 10.0-b22 (Sun Microsystems Inc.)
+Built-By: brian
+Built-Date: 2008-Jun-13 16:35
+Implementation-Title: JUpload2
+Implementation-Version: 3.4.2
+Implementation-Company: http://jupload.sourceforge.net/
+
+Name: content
+todo: Add more info here.
+

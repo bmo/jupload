@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/jupload/!svn/ver/441/trunk/jupload2/src/wjhk/jupload2/exception
+END
+JUploadExceptionTooBigFile.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svnroot/jupload/!svn/ver/441/trunk/jupload2/src/wjhk/jupload2/exception/JUploadExceptionTooBigFile.java
+END
+JUploadIOException.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svnroot/jupload/!svn/ver/441/trunk/jupload2/src/wjhk/jupload2/exception/JUploadIOException.java
+END
+JUploadExceptionUploadFailed.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svnroot/jupload/!svn/ver/441/trunk/jupload2/src/wjhk/jupload2/exception/JUploadExceptionUploadFailed.java
+END
+JUploadException.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svnroot/jupload/!svn/ver/441/trunk/jupload2/src/wjhk/jupload2/exception/JUploadException.java
+END
+JUploadExceptionStopAddingFiles.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svnroot/jupload/!svn/ver/441/trunk/jupload2/src/wjhk/jupload2/exception/JUploadExceptionStopAddingFiles.java
+END
+package.html
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svnroot/jupload/!svn/ver/118/trunk/jupload2/src/wjhk/jupload2/exception/package.html
+END

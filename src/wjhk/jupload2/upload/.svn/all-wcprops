@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/jupload/!svn/ver/474/trunk/jupload2/src/wjhk/jupload2/upload
+END
+DefaultFileUploadThread.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svnroot/jupload/!svn/ver/441/trunk/jupload2/src/wjhk/jupload2/upload/DefaultFileUploadThread.java
+END
+CookieJar.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/jupload/!svn/ver/291/trunk/jupload2/src/wjhk/jupload2/upload/CookieJar.java
+END
+FileUploadThreadFTP.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svnroot/jupload/!svn/ver/441/trunk/jupload2/src/wjhk/jupload2/upload/FileUploadThreadFTP.java
+END
+HttpConnect.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/jupload/!svn/ver/474/trunk/jupload2/src/wjhk/jupload2/upload/HttpConnect.java
+END
+InteractiveTrustManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svnroot/jupload/!svn/ver/441/trunk/jupload2/src/wjhk/jupload2/upload/InteractiveTrustManager.java
+END
+FileUploadThread.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/jupload/!svn/ver/441/trunk/jupload2/src/wjhk/jupload2/upload/FileUploadThread.java
+END
+FileUploadThreadHTTP.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svnroot/jupload/!svn/ver/473/trunk/jupload2/src/wjhk/jupload2/upload/FileUploadThreadHTTP.java
+END
+UploadFileData.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svnroot/jupload/!svn/ver/441/trunk/jupload2/src/wjhk/jupload2/upload/UploadFileData.java
+END
+package.html
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/jupload/!svn/ver/118/trunk/jupload2/src/wjhk/jupload2/upload/package.html
+END

@@ -1,0 +1,12 @@
+
+<HTML>
+
+<BODY>
+
+Implementations of the various protocol-specific tasks. This package
+provides implementations of FTP- and HTTP specific tasks for performing
+the actual upload. Furthermore, it provides a universal class for
+connecting to HTTP and HTTPS using a proxy.
+
+</BODY>
+</HTML>

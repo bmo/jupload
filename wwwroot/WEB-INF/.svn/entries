@@ -1,0 +1,44 @@
+8
+
+dir
+478
+https://jupload.svn.sourceforge.net/svnroot/jupload/trunk/jupload2/wwwroot/WEB-INF
+https://jupload.svn.sourceforge.net/svnroot/jupload
+
+
+
+2008-04-18T21:42:00.378744Z
+443
+etienne_sf
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+35eed6a1-492f-0410-aaa5-912e50059252
+
+lib
+dir
+
+web.xml
+file
+
+
+
+
+2008-06-13T17:25:38.000000Z
+3cc3b6f4ccb5cf6dccc6c6d9b35d08b5
+2006-08-31T13:53:58.000000Z
+6
+etienne_sf
+has-props
+
