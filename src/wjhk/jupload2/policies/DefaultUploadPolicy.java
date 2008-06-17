@@ -44,12 +44,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.StringTokenizer;
-import java.util.Vector;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -181,7 +176,9 @@ public class DefaultUploadPolicy implements UploadPolicy {
 
 
     private String fileUploadLoadedCallback = null;
-
+    private String formvarPrefix = null;
+    private boolean suppress = false;
+    private String  filenamePrefix = null;
     /**
      * This String contains the filenameEncoding parameter. All details about
      * the available applet parameters are displayed in the <a
@@ -269,6 +266,8 @@ public class DefaultUploadPolicy implements UploadPolicy {
     private int sslVerifyCert = InteractiveTrustManager.NONE;
 
     private final static String CRLF = System.getProperty("line.separator");
+
+    private String javascriptInstanceName = "JUpload.instances['jupload_0']";        // TODO - change this to Null, and make it be set.
 
     // //////////////////////////////////////////////////////////////////////////////////////////////
     // /////////////////// INTERNAL ATTRIBUTE
@@ -415,11 +414,45 @@ public class DefaultUploadPolicy implements UploadPolicy {
                 PROP_FILE_CHOOSER_ICON_SIZE, DEFAULT_FILE_CHOOSER_ICON_SIZE,
                 this));
 
-        // get the fileUploadLoadedCallback.
-        setFileUploadLoadedCallback(UploadPolicyFactory.getParameter(theApplet,
-                PROP_FILE_UPLOAD_LOADED_CALLBACK, null,
+        // get the callbacks..
+        setCallBackString(PROP_CALLBACK_FILE_UPLOAD_LOADED,UploadPolicyFactory.getParameter(theApplet,
+                PROP_CALLBACK_FILE_UPLOAD_LOADED,"juploadReady",
                 this));
+        setCallBackString(PROP_CALLBACK_FILE_DIALOG_START,UploadPolicyFactory.getParameter(theApplet,
+                PROP_CALLBACK_FILE_DIALOG_START, "fileDialogStart",
+                this));
+      setCallBackString(PROP_CALLBACK_FILE_QUEUED,UploadPolicyFactory.getParameter(theApplet,
+                PROP_CALLBACK_FILE_QUEUED, "fileQueued",
+                this));
+      setCallBackString(PROP_CALLBACK_FILE_QUEUE_ERROR,UploadPolicyFactory.getParameter(theApplet,
+                PROP_CALLBACK_FILE_QUEUE_ERROR, "fileQueueError",
+                this));
+      setCallBackString(PROP_CALLBACK_FILE_DIALOG_COMPLETE,UploadPolicyFactory.getParameter(theApplet,
+                PROP_CALLBACK_FILE_DIALOG_COMPLETE, "fileDialogComplete",
+                this));
+      setCallBackString(PROP_CALLBACK_FILE_UPLOAD_START,UploadPolicyFactory.getParameter(theApplet,
+                PROP_CALLBACK_FILE_UPLOAD_START, "uploadStart",
+                this));
+      setCallBackString(PROP_CALLBACK_FILE_UPLOAD_PROGRESS,UploadPolicyFactory.getParameter(theApplet,
+                PROP_CALLBACK_FILE_UPLOAD_PROGRESS, "uploadProgress",
+                this));
+      setCallBackString(PROP_CALLBACK_FILE_UPLOAD_ERROR,UploadPolicyFactory.getParameter(theApplet,
+                PROP_CALLBACK_FILE_UPLOAD_ERROR, "uploadError",
+                this));
+      setCallBackString(PROP_CALLBACK_FILE_UPLOAD_SUCCESS,UploadPolicyFactory.getParameter(theApplet,
+                PROP_CALLBACK_FILE_UPLOAD_SUCCESS, "uploadSuccess",
+                this));
+      setCallBackString(PROP_CALLBACK_FILE_UPLOAD_COMPLETE,UploadPolicyFactory.getParameter(theApplet,
+                PROP_CALLBACK_FILE_UPLOAD_COMPLETE, "uploadComplete",
+                this));
+        //setCallBackString(PROP_CALLBACK_FILE_)
 
+        setFilenamePrefix(UploadPolicyFactory.getParameter(theApplet,PROP_FILENAME_PREFIX, null,
+                this));
+        setFilenameSuppressSuffix(UploadPolicyFactory.getParameter(theApplet,PROP_FILENAME_SUPPRESS_SUFFIX, false,
+                this));
+        setFilenameFormvarName(UploadPolicyFactory.getParameter(theApplet,PROP_FORM_VAR_NAME, null,
+                this));
 
         // get the filenameEncoding. If not null, it should be a valid argument
         // for the URLEncoder.encode method.
@@ -631,18 +664,45 @@ public class DefaultUploadPolicy implements UploadPolicy {
     private String jsString(String s) {
         return "'" + s.replaceAll("'", "\\'") + "'";
     }
+    // JUpload.JUploadReady.apply(JUpload.instances['jupload_0'],null) -
 
-    public void performCallback(String url) throws JUploadException {
-        if (url != null) {
+    public Object performCallback(String function, String[] args, boolean use_instance) throws JUploadException {
+      Object return_val;
+      if (function != null) {
             try {
+                String instanced_function = function;
+                String s_args="";
+                Integer i;
+                if (null != args) {
+                  for (i = 0; i < args.length; i++) {
+
+                    if (s_args.length() > 0) s_args += ",";
+                    if (null != args[i]) {
+                      s_args = s_args + args[i];
+                    } else
+                      s_args = s_args + "null";
+                  }
+                }
+                
+                //if ( args.length==0) {s_args = "null";} else {s_args = "["+s_args+"]";}
+                if (use_instance && (null!=this.javascriptInstanceName)){ // Do instance call, JUpload.instances['jupload_0'].function.apply(JUpload.instances['jupload_0'],args)
+                  instanced_function = this.javascriptInstanceName+"."+function+"("+s_args+")";
+                  // turn into function.apply(JUpload['jupload_0'],(args))
+                } else { // do a class call, like JUpload.JUploadReady.apply(JUpload.instances['jupload_0'],null)
+                  //instanced_function = function+".apply("+this.javascriptInstanceName+","+s_args+")";
+                  instanced_function = function+"("+s_args+")";
+                }
                 // A JavaScript expression was specified. Execute it.
-                JSObject.getWindow(getApplet()).eval(url);
+                displayWarn("performCallback with "+instanced_function);
+                return_val =  JSObject.getWindow(getApplet()).eval(instanced_function);
+                return return_val;
             } catch (Exception ee) {
                 // Oops, no navigator. We are probably in debug mode, within
                 // eclipse for instance.
                 displayErr(ee);
             }
         }
+      return null;
     }
     /**
      * @see wjhk.jupload2.policies.UploadPolicy#afterUpload(Exception, String)
@@ -957,7 +1017,10 @@ public class DefaultUploadPolicy implements UploadPolicy {
     FileData fileData, int index) {
         // This is the original way of working of JUpload.
         // It can easily be modified, by using another UploadPolicy.
-        return "File" + index;
+      if (this.nbFilesPerRequest == 1)
+        return "uploaded_data";
+
+      return "File" + index;
     }
 
     /** @see wjhk.jupload2.policies.UploadPolicy#isUploadReady() */
@@ -1179,12 +1242,21 @@ public class DefaultUploadPolicy implements UploadPolicy {
      */
     public void setProperty(String prop, String value) throws JUploadException {
 
-        displayDebug("[DefaultUploadPolicy] Call off setProperty: " + prop
+        displayDebug("[DefaultUploadPolicy] Call from setProperty: " + prop
                 + " => " + value, 60);
 
-        if (prop.equals(PROP_FILE_UPLOAD_LOADED_CALLBACK )) {
-            setFileUploadLoadedCallback(value);
-        } else if (prop.equals(PROP_AFTER_UPLOAD_URL)) {
+        if (prop.equals(PROP_CALLBACK_FILE_UPLOAD_LOADED) ||
+            prop.equals(PROP_CALLBACK_FILE_DIALOG_START) ||
+            prop.equals(PROP_CALLBACK_FILE_QUEUED) ||
+            prop.equals(PROP_CALLBACK_FILE_QUEUE_ERROR) ||
+            prop.equals(PROP_CALLBACK_FILE_DIALOG_COMPLETE) ||
+            prop.equals(PROP_CALLBACK_FILE_UPLOAD_START) ||
+            prop.equals(PROP_CALLBACK_FILE_UPLOAD_PROGRESS) ||
+            prop.equals(PROP_CALLBACK_FILE_UPLOAD_SUCCESS) ||
+            prop.equals(PROP_CALLBACK_FILE_UPLOAD_COMPLETE)) {
+            //setCallBackString(prop,value);
+        }
+         else if (prop.equals(PROP_AFTER_UPLOAD_URL)) {
             setAfterUploadURL(value);
         } else if (prop.equals(PROP_ALLOW_HTTP_PERSISTENT)) {
             setAllowHttpPersistent(Boolean.parseBoolean(value));
@@ -1270,8 +1342,10 @@ public class DefaultUploadPolicy implements UploadPolicy {
                 + getFileChooserIconFromFileContent(), 20);
         displayDebug(PROP_FILE_CHOOSER_ICON_SIZE + ": "
                 + getFileChooserIconSize(), 20);
-        displayDebug(PROP_FILE_UPLOAD_LOADED_CALLBACK + ": "
-                + getFileUploadLoadedCallback(), 20);
+        displayDebug(PROP_CALLBACK_FILE_UPLOAD_LOADED + ": "
+                + getCallBackString(PROP_CALLBACK_FILE_UPLOAD_LOADED), 20);
+        displayDebug(PROP_CALLBACK_FILE_UPLOAD_LOADED + ": "
+                + getCallBackString(PROP_CALLBACK_FILE_UPLOAD_LOADED), 20);
         displayDebug(PROP_FILENAME_ENCODING + ": " + getFilenameEncoding(), 20);
         displayDebug("lang: " + this.lang, 20);
         displayDebug(PROP_MAX_CHUNK_SIZE + ": " + getMaxChunkSize(), 20);
@@ -1344,23 +1418,50 @@ public class DefaultUploadPolicy implements UploadPolicy {
         } else
             this.afterUploadURL = normalizeURL(afterUploadURL);
     }
-    /**
-     * Set the {@link #fileUploadLoadedCallback callback}
-     *
-     * @param s The javascript method to call.
-     * @throws JUploadException
-     */
-    protected void setFileUploadLoadedCallback (String s)
-            throws JUploadException {
-        if (null == s)
-            return;
-        this.fileUploadLoadedCallback = s;
-        displayInfo("fileUploadLoadedCallback set to " + s);
+
+
+  private Hashtable s_callbacks = new Hashtable();
+
+  protected void setCallBackString(String property_name, String new_value) {
+    if (null == new_value)
+      return;
+    displayInfo("Callback [" + property_name + "] set to " + new_value);
+    s_callbacks.put(property_name, new_value);
+  }
+
+  public String getCallBackString(String property_name) {
+    // will return null if the propertyname is not there...
+    return (String) s_callbacks.get(property_name);
+  }
+
+  public String getJavascripInstanceName() {
+    return this.javascriptInstanceName;
+  }
+  
+  public void setJavascripInstanceName(String the_name) {
+     this.javascriptInstanceName=the_name;
+  }
+
+  public void setFilenamePrefix(String prefix){
+       this.filenamePrefix = prefix;    
+    }
+    public String getFilenamePrefix() {
+       return this.filenamePrefix;
+    }
+    public void  setFilenameSuppressSuffix(boolean suppress) {
+      this.suppress = suppress;
+    }
+    public boolean getFilenameSuppressSuffix() {
+      return this.suppress;
     }
 
-    public String getFileUploadLoadedCallback() {
-        return this.fileUploadLoadedCallback;
+    public void  setFilenameFormvarName(String formvar){
+      this.formvarPrefix = formvar;
     }
+    public String getFilenameFormvarName() {
+      return this.formvarPrefix;
+    }
+
     /**
      * @see wjhk.jupload2.policies.UploadPolicy#getAllowHttpPersistent()
      */

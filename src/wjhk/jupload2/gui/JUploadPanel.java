@@ -457,18 +457,39 @@ public class JUploadPanel extends JPanel implements ActionListener,
      */
     public void doBrowse() {
         // Browse clicked
-        if (null != this.fileChooser) {
-            try {
-                int ret = this.fileChooser.showOpenDialog(new Frame());
-                if (JFileChooser.APPROVE_OPTION == ret)
-                    addFiles(this.fileChooser.getSelectedFiles(),
-                            this.fileChooser.getCurrentDirectory());
-                // We stop any running task for the JUploadFileView
-                this.fileChooser.shutdownNow();
-            } catch (Exception ex) {
-                this.uploadPolicy.displayErr(ex);
-            }
+        String cmd;
+        if (null != (cmd = this.uploadPolicy.getCallBackString(UploadPolicy.PROP_CALLBACK_FILE_DIALOG_START)) ) {
+          // perform the file dialog start callback
+          try {this.uploadPolicy.performCallback(cmd,null,true);} catch( Exception ex) {this.uploadPolicy.displayErr(ex);}
         }
+        if (null != this.fileChooser) {
+          try {
+            int ret = this.fileChooser.showOpenDialog(new Frame());
+            if (JFileChooser.APPROVE_OPTION == ret) {
+              String end_cmd;
+              Integer n_selected = this.fileChooser.getSelectedFiles().length;
+
+              addFiles(this.fileChooser.getSelectedFiles(),
+                      this.fileChooser.getCurrentDirectory());
+
+              if (null != (end_cmd = this.uploadPolicy.getCallBackString(UploadPolicy.PROP_CALLBACK_FILE_DIALOG_COMPLETE))) {
+                // perform the file dialog start callback
+                //end_cmd = end_cmd ; //+ "(" + n_selected + "," + n_selected+ ")";
+                try {
+                  String[] args = { n_selected.toString(), n_selected.toString()};
+                  this.uploadPolicy.performCallback(end_cmd, args,true);
+                } catch (Exception ex) {
+                  this.uploadPolicy.displayErr(ex);
+                }
+              }
+            }
+            // We stop any running task for the JUploadFileView
+            this.fileChooser.shutdownNow();
+          } catch (Exception ex) {
+            this.uploadPolicy.displayErr(ex);
+          }
+        }
+
     }
 
     /**

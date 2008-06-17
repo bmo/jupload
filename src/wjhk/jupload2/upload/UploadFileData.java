@@ -79,6 +79,8 @@ class UploadFileData implements FileData {
      */
     private final byte readBuffer[] = new byte[BUFLEN];
 
+    private int status = 0;
+
     // /////////////////////////////////////////////////////////////////////////////////////////////////////
     // //////////////////////////////////// CONSTRUCTOR
     // ///////////////////////////////////////////
@@ -352,4 +354,31 @@ class UploadFileData implements FileData {
         return uploadLength;
     }
 
+  /**
+   * {@inheritDoc}
+   */
+  public String getJSON( int index) {
+    String json_obj;
+    /* TODO creation_date, modification_date, filestatus */
+    json_obj = "{ id : '" +  "File_"+this.hashCode() + "', " +
+            "  index : '" +  index + "', " +
+            "  name : '" + this.getFileName() + "'," +
+            "  size : " + this.getFileLength() + "," +
+            "  type : '" + this.getFileExtension() + "'," +
+            "  relative_path : '" + this.getRelativeDir()+ "'," +
+            "  filestatus : "+ this.status +
+            " } ";
+    return json_obj;
+  }
+
+
+    public int status() {
+      return this.status;
+
+    }
+
+    public int setStatus(int mstatus) {
+      this.status = mstatus;
+      return this.status;
+    }
 }

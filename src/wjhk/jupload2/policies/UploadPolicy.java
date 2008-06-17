@@ -746,6 +746,9 @@ public interface UploadPolicy {
      * Available parameters for the applet. New parameters (for instance for new
      * policies) should all be added here, in alphabetic order. This ensures
      * that all tags are unique
+     *
+     * (doesn't that break the reason why all of these are separate? This file shouldn't have to be changed
+     * each time a new policy is added)
      */
 
     /**
@@ -810,32 +813,51 @@ public interface UploadPolicy {
 
 
 
-    /**
-     * javascript function that will be called back when the file dialog starts.
-     */
-    public final static String PROP_FILE_DIALOG_COMPLETE_CALLBACK = "fileDialogComplete";
-    /**
-     * javascript function that will be called back when the file dialog starts.
-     *
-     */
-    public final static String PROP_FILE_DIALOG_START_CALLBACK = "fileDialogStart";
+    
+    /*--------------------- CALLBACKS
     /**
      * javascript function that will be called back when the file dialog starts.
      *
      */
-    public final static String PROP_FILE_UPLOAD_LOADED_CALLBACK = "fileUploadLoaded";
+    public final static String PROP_CALLBACK_FILE_UPLOAD_LOADED = "fileUploadLoaded";
+    public final static String PROP_CALLBACK_FILE_DIALOG_START = "fileDialogStart";
+    public final static String PROP_CALLBACK_FILE_QUEUED = "fileQueued";
+    public final static String PROP_CALLBACK_FILE_QUEUE_ERROR = "fileQueueError";
+    public final static String PROP_CALLBACK_FILE_DIALOG_COMPLETE = "fileDialogComplete";
+    public final static String PROP_CALLBACK_FILE_UPLOAD_START = "uploadStart";
+    public final static String PROP_CALLBACK_FILE_UPLOAD_PROGRESS = "uploadProgress";
+    public final static String PROP_CALLBACK_FILE_UPLOAD_ERROR = "uploadError";
+    public final static String PROP_CALLBACK_FILE_UPLOAD_SUCCESS = "uploadSuccess";
+    public final static String PROP_CALLBACK_FILE_UPLOAD_COMPLETE = "uploadComplete";
 
 
-    /**
+  /**
      * Parameter/Property name for specifying the encoding of file names.
      */
     public final static String PROP_FILENAME_ENCODING = "filenameEncoding";
+
+    /**
+     * Parameter/Property name for specifying the file name prefix (default was File).
+     */
+    public final static String PROP_FILENAME_PREFIX = "filenamePrefix";
+
+   /**
+    * Parameter/Property name for specifying the suppression of numeric file suffix. File0 would become File;
+    *
+    */
+    public final static String PROP_FILENAME_SUPPRESS_SUFFIX = "filenameSuppressSuffix";
 
     /**
      * Parameter/Property name for specifying additional form data.
      */
     public final static String PROP_FORMDATA = "formdata";
 
+    /**
+     * Parameter/Property name for value that is attached to form variables.
+     * used to encase variables. example: if form_var_name is "file_item", then the File upload data variable will be "file_item[File0]"   
+     */
+
+    public final static String PROP_FORM_VAR_NAME = "form_var_name";
     /**
      * Parameter/Property name for specifying high quality previews.
      */
@@ -1288,12 +1310,19 @@ public interface UploadPolicy {
 
 
     /**
-     * Retrieves the current value for the fileUploadLoadedCallback callback.
+     * Retrieves the current value for the specified callback.
      *
-     * @return The current value for the fileUploadLoadedCallback callback.
+     * @return The current value for the specified callback.
      */
-    public String getFileUploadLoadedCallback();
+    public String getCallBackString(String callBackName);
 
+  /**
+     * Retrieves the current value for the specified callback.
+     *
+     * @return The current value for the specified callback.
+     */
+    public String getJavascripInstanceName();
+   
     /**
      * Retrieves the current value for allowHttpPersistent
      * 
@@ -1805,10 +1834,11 @@ public interface UploadPolicy {
          *
          *
          *
-         * @param Url - eval'd in the context of the browser.
+         * @param function - function to be eval'd in the context of the browser.
+         * @param args - args to the function. Note that these may be apply'd in the context of the javascriptInstanceName...
          * @throws JUploadException
          */
-        public void performCallback(String Url)
+        public Object performCallback(String function, String[] args, boolean instance_call)
                 throws JUploadException;
 
 

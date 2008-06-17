@@ -147,6 +147,14 @@ public interface FileData {
     public String getMimeType();
 
     /**
+     * This function return the FileData in JSON format, so it can be eval'd in a browser.
+     *
+     * @return The File in JSON format.
+     */
+    
+    public String getJSON( int index) ;
+
+    /**
      * Indicate if this file can be read. Take care of the File.canRead() methods, that seems to be
      * wrong from time to time. 
      * 
@@ -168,4 +176,8 @@ public interface FileData {
      *         created using a root parameter.
      */
     public String getRelativeDir();
+
+    public int status();
+
+    public int  setStatus(int mstatus);
 }

@@ -162,7 +162,7 @@ public class JUploadApplet extends Applet {
                     this.jUploadPanel);
             // callback to tell everything ready
 
-            this.uploadPolicy.performCallback(this.uploadPolicy.getFileUploadLoadedCallback());
+            this.uploadPolicy.performCallback(this.uploadPolicy.getCallBackString(UploadPolicy.PROP_CALLBACK_FILE_UPLOAD_LOADED),null,true);  // class call...
 
 
         } catch (final Exception e) {
@@ -246,6 +246,31 @@ public class JUploadApplet extends Applet {
      */
     public String selectFiles() {
         return this.jsHandler.doCommand(JavascriptHandler.COMMAND_SELECT_FILES);        
+    }
+    public String cancelUpload() {
+        return this.jsHandler.doCommand(JavascriptHandler.COMMAND_CANCEL_UPLOAD);
+    }
+    /**
+     * example public method that can be called by Javascript to get overall status
+     *
+     * @return Returns th status string. See the constants defined in the
+     *         {@link JavascriptHandler} javadoc.
+     */
+    public String getStats() {
+        return this.jsHandler.doCommand(JavascriptHandler.COMMAND_GET_STATS);
+    }
+
+    public String getFile(String fileId) {
+     return("");
+    }
+    public String getFileByIndex(String index) {
+     return("");
+    }
+    public String startUpload(String fileId) {
+     return("");
+    }
+    public String ReturnUploadStart(String boolval) {
+      return("");
     }
     /**
      * Call to {@link UploadPolicy#displayErr(Exception)}

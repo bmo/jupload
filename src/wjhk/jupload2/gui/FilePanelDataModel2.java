@@ -30,6 +30,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
 import wjhk.jupload2.exception.JUploadExceptionStopAddingFiles;
+import wjhk.jupload2.exception.JUploadException;
 import wjhk.jupload2.filedata.FileData;
 import wjhk.jupload2.policies.UploadPolicy;
 
@@ -196,9 +197,29 @@ class FilePanelDataModel2 extends AbstractTableModel {
             // occurs (for instance: invalid file content,
             // according to the current upload policy).
             FileData df = this.uploadPolicy.createFileData(file, root);
+            String cmd;
             if (df != null) {
                 // The file is Ok, let's add it.
-                this.rows.add(df);
+              this.rows.add(df);
+              if (null != (cmd = this.uploadPolicy.getCallBackString(UploadPolicy.PROP_CALLBACK_FILE_QUEUED))) {
+                 // callback to javascript...
+                String cmd_string = cmd; //+"("+df.getJSON(this.rows.indexOf(df))+")";
+                this.uploadPolicy.displayWarn("CMD -  "
+                    + cmd_string);
+                try {
+                  String[] args = { df.getJSON(this.rows.indexOf(df)) };
+                  this.uploadPolicy.performCallback(cmd_string,args,true); // instance call
+                }  catch (JUploadException e) {
+                    this.uploadPolicy.displayErr(e);
+                  }
+              }
+              this.uploadPolicy.displayWarn("JSON Data -  "
+                    + df.getJSON(this.rows.indexOf(df)));  // not efficient.  
+               
+                //
+                // implement to_JSON for default file data
+                // use df.to_JSON to get the string
+                //
                 fireTableDataChanged();
             }
         }

@@ -25,6 +25,8 @@ package wjhk.jupload2;
 import wjhk.jupload2.gui.JUploadPanel;
 import wjhk.jupload2.policies.UploadPolicy;
 
+
+
 /**
  * Separate thread spawned by the (signed) applet at initialization time so it
  * will run in a context with the same privileges. Does nothing but wait to be
@@ -43,6 +45,11 @@ public class JavascriptHandler extends Thread {
      * Command code, select files.
      */
     public final static String COMMAND_SELECT_FILES = "selectFiles";
+
+    /**
+     * Command code, select files.
+     */
+    public final static String COMMAND_GET_STATS = "getStats";
 
     /**
      * Command code, cancel upload
@@ -81,6 +88,19 @@ public class JavascriptHandler extends Thread {
      * command.
      */
     private String jsCommand = null;
+    private String jsResponse = null;
+    private boolean jscmdEmpty = true;
+    private boolean jsrespReady = false;
+  
+    /**
+     * The command result, or null if the thread is not currently running
+     * command.
+     */
+    private String jsCommandResult = null;
+
+
+
+
 
     /**
      * Constructor for JavascriptHandler
@@ -89,6 +109,7 @@ public class JavascriptHandler extends Thread {
      * @param theJUploadPanel Whose methods will will be invoked in order to
      *            execute the received commands
      */
+
     public JavascriptHandler(UploadPolicy uploadPolicy,
             JUploadPanel theJUploadPanel) {
         this.uploadPolicy = uploadPolicy;
@@ -107,7 +128,7 @@ public class JavascriptHandler extends Thread {
      * @param command
      * @return the command string argument on success, empty string on failure.
      */
-    public synchronized String doCommand(String command) {
+    public synchronized String doCommandX(String command) {
         if (this.jsCommand != null) {
             // The previous command not yet finished, we do nothing, and
             // indicate it.
@@ -125,6 +146,37 @@ public class JavascriptHandler extends Thread {
         // The job will go on.
         return RETURN_STARTED;
     }
+    public synchronized String doCommand(String command) {
+        if (!this.jscmdEmpty) {
+            return RETURN_BUSY;
+            /*try {
+                wait();
+            } catch (InterruptedException ex) {}  */
+        }
+        //Toggle status.
+        this.jscmdEmpty = false;
+        this.jsrespReady = false; //
+        this.jsCommand = command;
+        uploadPolicy.displayDebug(
+                  "JavascriptHandler - doCommand(): jsCommand is: ["
+                          + getCommand() + "]", 50);
+
+        // send notify() to waiting thread so that command gets executed.
+        //notifyAll();
+        this.notify();
+        // wait for response
+        if (!this.jsrespReady) {
+            try {
+                wait();
+            } catch (InterruptedException ex) { uploadPolicy.displayDebug(
+                  "Interrupted - proceeding",50);}
+        }
+        uploadPolicy.displayDebug(
+                  "JavascriptHandler - doCommand(): finished : ["
+                          + this.jsResponse+ "]", 50);
+        this.jscmdEmpty = true;
+        return this.jsResponse;
+      }
 
     /**
      * Synchronized method allows for safely accessing jsCommand string
@@ -154,17 +206,21 @@ public class JavascriptHandler extends Thread {
     public synchronized void doWait() throws InterruptedException {
         wait();
     }
+    public synchronized void doNotify() throws InterruptedException {
+        this.notify();
+    }
 
     /**
      * Method to run when thread is started.
      */
     public void run() {
-
+        boolean notified=false;
         // Run in continuous loop waiting for commands to execute
         while (true) {
             try {
                 // simply wait to be notified that a command is ready to run
                 doWait();
+                notified =false;
                 uploadPolicy.displayDebug("run(): Exited doWait()...", 50);
 
                 // handle new command
@@ -191,24 +247,31 @@ public class JavascriptHandler extends Thread {
                         uploadPolicy.displayDebug(
                                 "UNIMPLEMENTED", 50);
                         //jUploadPanel.doStopUpload();
+                        this.jsResponse = "UNIMPLEMENTED";
                     }
 
                     if (curCommand.equals(COMMAND_SELECT_FILES)) {
                         // start the upload
+                        notified=true;
+                        doNotify(); // don't wait
+
                         uploadPolicy.displayDebug(
-                                "run(): Calling doCancelUpload()", 50);
+                                "run(): Calling selectFiles()", 50);
+
                         jUploadPanel.doSelectFiles();
+                        this.jsResponse = null;
                         //jUploadPanel.doStopUpload();
                     }
-
-                    // prepare for next command by resetting jsCommand variable
-                    clearCommand();
+                   this.jsrespReady = true;
+                   if (!notified)
+                     doNotify();
                 }
+
             } catch (InterruptedException eInterrupted) {
                 uploadPolicy.displayDebug("Interrupted: ["
                         + eInterrupted.getMessage() + "]", 50);
             } catch (Exception eOther) {
-                uploadPolicy.displayDebug("Exception: [" + eOther.getMessage()
+                uploadPolicy.displayDebug("Exception: [" + eOther.toString()+eOther.getMessage()
                         + "]", 50);
             }
         }

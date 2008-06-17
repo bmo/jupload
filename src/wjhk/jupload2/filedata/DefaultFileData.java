@@ -106,6 +106,21 @@ public class DefaultFileData implements FileData {
      */
     private Boolean canRead = null;
 
+    /*
+     * status for the file, set by methods using the file 
+     */
+
+    private int status = 0;
+
+    public int status() {
+      return this.status;
+
+    }
+
+    public int setStatus(int mstatus) {
+      this.status = mstatus;
+      return this.status;
+    }
     /**
      * Standard constructor
      * 
@@ -120,6 +135,8 @@ public class DefaultFileData implements FileData {
         this.fileSize = this.file.length();
         this.fileDir = this.file.getAbsoluteFile().getParent();
         this.fileModified = new Date(this.file.lastModified());
+        this.status = 0;
+      
         if (null != root) {
             this.fileRoot = root.getAbsolutePath();
             uploadPolicy.displayDebug("Creation of the DefaultFileData for "
@@ -232,7 +249,24 @@ public class DefaultFileData implements FileData {
         return this.mimeType;
     }
 
-    /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
+  public String getJSON( int index) {
+    String json_obj;
+    /* TODO creation_date, modification_date, filestatus */
+    json_obj = "{ id : '" +  "File_"+this.hashCode() + "', " +
+            "  index : " +  index + ", " +
+            "  name : '" + this.getFileName() + "'," +
+            "  size : " + this.fileSize + "," +
+            "  type : '" + this.getFileExtension() + "'," +
+            "  relative_path : '" + this.getRelativeDir()+ "'," +
+            "  filestatus : "+ this.status +
+            " } ";
+    return json_obj;
+  }
+
+  /** {@inheritDoc} */
     public boolean canRead() {
         // The commented line below doesn't seems to work.
         // return this.file.canRead();

@@ -698,6 +698,7 @@ public class FileUploadThreadHTTP extends DefaultFileUploadThread {
         String mimetype = this.filesToUpload[index].getMimeType();
         String uploadFilename = this.filesToUpload[index]
                 .getUploadFilename(index);
+        String uploadFilenameForPost;
         ByteArrayEncoder bae = new ByteArrayEncoderHTTP(uploadPolicy, bound);
 
         // We'll encode the output stream into UTF-8.
@@ -713,7 +714,14 @@ public class FileUploadThreadHTTP extends DefaultFileUploadThread {
 
         // Content-Disposition.
         bae.append("Content-Disposition: form-data; name=\"");
-        bae.append(this.filesToUpload[index].getUploadName(index)).append(
+        // TODO make this configurable...
+        // should get a parameter from uploadPolicy, if that param not null, then do this.
+        uploadFilenameForPost = this.filesToUpload[index].getUploadName(index);
+        if (null != form) { // surround the file name with the form variable if necessary
+          uploadFilenameForPost ="file_item["+uploadFilenameForPost+"]";
+        }
+        //bae.append(this.filesToUpload[index].getUploadName(index)).append(
+        bae.append(uploadFilenameForPost).append(
                 "\"; filename=\"");
         if (filenameEncoding == null) {
             bae.append(uploadFilename);
