@@ -267,6 +267,15 @@ public class DefaultUploadPolicy implements UploadPolicy {
 
     private final static String CRLF = System.getProperty("line.separator");
 
+    /* a Stats object */
+    private boolean in_progress = false;    // t or f indicating if a file upload is currently in progress
+    private int     files_queued=0;         // The number of files currently in the queue
+    private int     successful_uploads=0;   // The number of files that have uploaded successfully (caused uploadSuccess to be fired)
+    private int     upload_errors=0;        // The number of files that have had errors (excluding cancelled files)
+    private int     upload_cancelled=0;     // The number of files that have been cancelled
+    private int     queue_errors=0;         // The number of files that caused fileQueueError to be fired
+
+
     private String javascriptInstanceName = "JUpload.instances['jupload_0']";        // TODO - change this to Null, and make it be set.
 
     // //////////////////////////////////////////////////////////////////////////////////////////////
@@ -578,6 +587,7 @@ public class DefaultUploadPolicy implements UploadPolicy {
      */
     public void beforeUpload() {
         // Default: no special action.
+        setStatInProgress(true); //
     }
 
     /**
@@ -620,8 +630,10 @@ public class DefaultUploadPolicy implements UploadPolicy {
             // The success string should be in the http body
             if (getStringUploadSuccess() != null
                     && !getStringUploadSuccess().equals("")) {
-                if (this.patternSuccess.matcher(line).matches())
+                if (this.patternSuccess.matcher(line).matches()) {
+                    incrementStatSuccessfulUploads();
                     return true;
+                }
             }
 
             // Check if this is an error
@@ -637,6 +649,7 @@ public class DefaultUploadPolicy implements UploadPolicy {
                         }
                     }
                     this.lastResponseMessage = errmsg;
+                    incrementStatUploadErrors();
                     throw new JUploadExceptionUploadFailed(errmsg);
                 }
             }
@@ -648,6 +661,7 @@ public class DefaultUploadPolicy implements UploadPolicy {
         if (getStringUploadSuccess() == null
                 || getStringUploadSuccess().equals("")) {
             // No chance to check the correctness of this upload. -> Assume Ok
+            incrementStatSuccessfulUploads();
             return true;
         }
 
@@ -655,6 +669,7 @@ public class DefaultUploadPolicy implements UploadPolicy {
         // This is most certainly an error as http-status 200 does *not* refer
         // to the correctness of the content. It merely means that the protocol
         // handling was ok. -> throw an exception
+        incrementStatUploadErrors();
         throw new JUploadExceptionUploadFailed(getClass().getName()
                 + ".checkUploadSuccess(): The string \""
                 + this.stringUploadSuccess
@@ -712,6 +727,11 @@ public class DefaultUploadPolicy implements UploadPolicy {
         // If there was no error, and afterUploadURL is defined, let's try to go
         // to this URL.
         String url = getAfterUploadURL();
+        setStatInProgress(false); // keep stats up to date
+
+        if (null == e) { // update stats..
+         }
+
         if (url != null) {
             try {
                 if (url.toLowerCase().startsWith("javascript:")) {
@@ -767,6 +787,39 @@ public class DefaultUploadPolicy implements UploadPolicy {
     public void alert(String key) {
         alertStr(getString(key));
     }
+
+    public void setStatFilesQueued(int nfiles) {
+       files_queued = nfiles;
+
+    }
+    public void setStatInProgress(boolean n_progress) {
+       in_progress = n_progress;
+    }
+    public void setStatSuccessfulUploads(int nfiles) {
+       successful_uploads = nfiles;
+    }
+    public void incrementStatSuccessfulUploads() {
+      successful_uploads+=1;
+    }
+    public int getStatSuccessfulUploads() {
+       return successful_uploads;
+    }
+    public void setStatUploadErrors(int nfiles) {
+       upload_errors = nfiles;
+    }
+    public void incrementStatUploadErrors() {
+      upload_errors+=1;
+    }
+    public void setStatUploadCancelleds(int nfiles) {
+       upload_cancelled = nfiles;
+    }
+    public void setStatQueueErrors(int nfiles) {
+       queue_errors = nfiles;
+    }
+    public String getStatsJSON() {
+     return("{ \"in_progress\" : "+(in_progress ? 1 : 0)+", \"files_queued\" : "+files_queued+", \"successful_uploads\" : "+successful_uploads+
+           ", \"upload_errors\" : "+upload_errors+" , \"upload_cancelled\" : "+upload_cancelled+", \"queue_errors\": "+queue_errors+"}"); // whew.
+   }
 
     /**
      * The DefaultUpload accepts all file types: we just return an instance of

@@ -48,6 +48,8 @@ public interface FilePanel {
      */
     public FileData[] getFiles();
 
+    public FileData getFileByExternalId(String fid);
+    public FileData getFileByExternalIndex(Integer index);
     /**
      * Retrieve the number of file entries in the JTable.
      * 

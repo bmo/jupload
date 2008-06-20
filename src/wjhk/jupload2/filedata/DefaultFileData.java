@@ -51,6 +51,11 @@ import wjhk.jupload2.upload.helper.ByteArrayEncoder;
  */
 public class DefaultFileData implements FileData {
 
+
+    /* keep track of all of the files we've seen */
+    private static int numberOfFileData = 0;
+
+
     /**
      * The current upload policy.
      */
@@ -106,6 +111,10 @@ public class DefaultFileData implements FileData {
      */
     private Boolean canRead = null;
 
+
+    private int ext_index = 0;
+    private String ext_id = "";
+
     /*
      * status for the file, set by methods using the file 
      */
@@ -136,7 +145,12 @@ public class DefaultFileData implements FileData {
         this.fileDir = this.file.getAbsoluteFile().getParent();
         this.fileModified = new Date(this.file.lastModified());
         this.status = 0;
-      
+
+        this.ext_index = DefaultFileData.numberOfFileData;
+        this.ext_id = "File_"+this.ext_index;
+
+        DefaultFileData.numberOfFileData++;
+
         if (null != root) {
             this.fileRoot = root.getAbsolutePath();
             uploadPolicy.displayDebug("Creation of the DefaultFileData for "
@@ -191,14 +205,23 @@ public class DefaultFileData implements FileData {
 
     /** {@inheritDoc} */
     public void beforeUpload() throws JUploadException {
-        // Default : we check that the file is smalled than the maximum upload
+        // Default : we check that the file is smaller than the maximum upload
         // size.
+        String cmd;
+        
         if (getUploadLength() > this.uploadPolicy.getMaxFileSize()) {
+            // TODO do the error callback here
             throw new JUploadExceptionTooBigFile(getFileName(),
                     getUploadLength(), this.uploadPolicy);
         }
     }
-
+    public String external_id() {
+      return this.ext_id;
+    }
+  
+    public int external_index() {
+      return this.ext_index;
+    }
     /** {@inheritDoc} */
     public long getUploadLength() throws JUploadException {
         return this.fileSize;
@@ -207,8 +230,87 @@ public class DefaultFileData implements FileData {
     /** {@inheritDoc} */
     public void afterUpload() {
         // Nothing to do here
-    }
 
+    }
+    /* fire the uploadComplete back to Javascript */
+    public void uploadStart() {
+      String cmd;
+      if (null != (cmd = this.uploadPolicy.getCallBackString(UploadPolicy.PROP_CALLBACK_FILE_UPLOAD_START))) {
+                 // callback to javascript...
+                String cmd_string = cmd;
+                this.uploadPolicy.displayWarn("uploadStart - CMD -  "
+                    + cmd_string);
+                try {
+                  String[] args = { this.getJSON() };
+                  this.uploadPolicy.performCallback(cmd_string,args,true); // instance call
+                }  catch (JUploadException e) {
+                    this.uploadPolicy.displayErr(e);
+                  }
+              }
+    }
+    public void uploadComplete() {
+      String cmd;
+      if (null != (cmd = this.uploadPolicy.getCallBackString(UploadPolicy.PROP_CALLBACK_FILE_UPLOAD_COMPLETE))) {
+                 // callback to javascript...
+                String cmd_string = cmd;
+                this.uploadPolicy.displayWarn("uploadComplete - CMD -  "
+                    + cmd_string);
+                try {
+                  String[] args = { this.getJSON() };
+                  this.uploadPolicy.performCallback(cmd_string,args,true); // instance call
+                }  catch (JUploadException e) {
+                    this.uploadPolicy.displayErr(e);
+                  }
+              }
+    }
+    public void uploadProgress(Long bytes_complete, Long total_bytes) {
+      String cmd;
+      if (null != (cmd = this.uploadPolicy.getCallBackString(UploadPolicy.PROP_CALLBACK_FILE_UPLOAD_PROGRESS))) {
+                 // callback to javascript...
+                String cmd_string = cmd;
+                this.uploadPolicy.displayWarn("uploadProgress - CMD -  "
+                    + cmd_string);
+                try {
+                  String[] args = { this.getJSON(), bytes_complete.toString(), total_bytes.toString() };
+                  this.uploadPolicy.performCallback(cmd_string,args,true); // instance call
+                }  catch (JUploadException e) {
+                    this.uploadPolicy.displayErr(e);
+                  }
+              }
+    }
+    /* fire upload Success back to javascript */
+    public void uploadSuccess(String server_response) {
+      String cmd;
+      if (null != (cmd = this.uploadPolicy.getCallBackString(UploadPolicy.PROP_CALLBACK_FILE_UPLOAD_SUCCESS))) {
+                 // callback to javascript...
+                String cmd_string = cmd;
+                this.uploadPolicy.displayWarn("uploadSuccess callback - CMD -  "
+                    + cmd_string);
+                try {
+                  String[] args = { this.getJSON(), '"'+server_response+'"' };
+                  this.uploadPolicy.performCallback(cmd_string,args,true); // instance call
+                }  catch (JUploadException e) {
+                    this.uploadPolicy.displayErr(e);
+                  }
+              }
+    }
+  /* fire upload error back to javascript */
+    public void uploadError(Integer error_code, String message) {
+      String cmd;
+      if (null != (cmd = this.uploadPolicy.getCallBackString(UploadPolicy.PROP_CALLBACK_FILE_UPLOAD_ERROR))) {
+                 // callback to javascript...
+                String cmd_string = cmd;
+                this.uploadPolicy.displayWarn("uploadError callback - CMD -  "
+                    + cmd_string);
+                try {
+                  String[] args = { this.getJSON(), error_code.toString(), message };
+                  this.uploadPolicy.performCallback(cmd_string,args,true); // instance call
+                }  catch (JUploadException e) {
+                    this.uploadPolicy.displayErr(e);
+                  }
+              }
+    }
+  
     /** {@inheritDoc} */
     public InputStream getInputStream() throws JUploadException {
         // Standard FileData : we read the file.
@@ -252,11 +354,11 @@ public class DefaultFileData implements FileData {
   /**
    * {@inheritDoc}
    */
-  public String getJSON( int index) {
+  public String getJSON() {
     String json_obj;
     /* TODO creation_date, modification_date, filestatus */
-    json_obj = "{ id : '" +  "File_"+this.hashCode() + "', " +
-            "  index : " +  index + ", " +
+    json_obj = "{ id : '" +  this.ext_id + "', " +
+            "  index : " +  this.ext_index + ", " +
             "  name : '" + this.getFileName() + "'," +
             "  size : " + this.fileSize + "," +
             "  type : '" + this.getFileExtension() + "'," +

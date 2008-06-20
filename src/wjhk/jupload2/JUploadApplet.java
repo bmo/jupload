@@ -34,6 +34,7 @@ import wjhk.jupload2.gui.JUploadPanel;
 import wjhk.jupload2.gui.JUploadTextArea;
 import wjhk.jupload2.policies.UploadPolicy;
 import wjhk.jupload2.policies.UploadPolicyFactory;
+import netscape.javascript.JSObject;
 
 /**
  * The applet. It contains quite only the call to creation of the
@@ -238,6 +239,12 @@ public class JUploadApplet extends Applet {
     public String startUpload() {
         return this.jsHandler.doCommand(JavascriptHandler.COMMAND_START_UPLOAD);
     }
+    public String startUpload(Integer index) {
+        return this.jsHandler.doCommand(JavascriptHandler.COMMAND_START_UPLOAD,index);
+    }
+    public String startUpload(String file_id) {
+        return this.jsHandler.doCommand(JavascriptHandler.COMMAND_START_UPLOAD,file_id);
+    }
     /**
      * example public method that can be called by Javascript to show the file selection dialog
      *
@@ -245,7 +252,13 @@ public class JUploadApplet extends Applet {
      *         {@link JavascriptHandler} javadoc.
      */
     public String selectFiles() {
-        return this.jsHandler.doCommand(JavascriptHandler.COMMAND_SELECT_FILES);        
+        return this.jsHandler.doCommand(JavascriptHandler.COMMAND_SELECT_FILES);
+    }
+    public String selectFile() {
+        return this.jsHandler.doCommand(JavascriptHandler.COMMAND_SELECT_FILE);
+    }
+    public String getFile(String file_id) {
+        return this.jsHandler.doCommand(JavascriptHandler.COMMAND_GET_FILE,file_id);
     }
     public String cancelUpload() {
         return this.jsHandler.doCommand(JavascriptHandler.COMMAND_CANCEL_UPLOAD);
@@ -253,24 +266,20 @@ public class JUploadApplet extends Applet {
     /**
      * example public method that can be called by Javascript to get overall status
      *
-     * @return Returns th status string. See the constants defined in the
-     *         {@link JavascriptHandler} javadoc.
+     * @return Returns the status string. see the swfupload docs for the object definition
+     *{@link JavascriptHandler} 
      */
-    public String getStats() {
-        return this.jsHandler.doCommand(JavascriptHandler.COMMAND_GET_STATS);
+    public Object getStats() {
+        return JSObject.getWindow(this).eval('('+this.jsHandler.doCommand(JavascriptHandler.COMMAND_GET_STATS)+')');
     }
 
-    public String getFile(String fileId) {
-     return("");
-    }
     public String getFileByIndex(String index) {
-     return("");
+     return("UNIMPLEMENTED");
     }
-    public String startUpload(String fileId) {
-     return("");
-    }
+
+    /* this routine will upload the next file in the queue if the boolean value is true, otherwise will just do nothing */
     public String ReturnUploadStart(String boolval) {
-      return("");
+      return("UNIMPLEMENTED");
     }
     /**
      * Call to {@link UploadPolicy#displayErr(Exception)}

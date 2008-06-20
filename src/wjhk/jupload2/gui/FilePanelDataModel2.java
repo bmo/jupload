@@ -166,6 +166,36 @@ class FilePanelDataModel2 extends AbstractTableModel {
         return false;
     }
 
+  public FileData getFilebByExternalId(String fid) {
+    Iterator<FileData> i = this.rows.iterator();
+    FileData fd;
+    this.uploadPolicy.displayDebug(
+                          "fpdm2 getFileByExternalId - Looking for "+fid, 50);
+
+    while (i.hasNext()) {
+      fd = i.next();
+      this.uploadPolicy.displayDebug(
+                            "getFileByExternalId - "+fd.external_id(), 50);
+
+      if (fid.equals(fd.external_id())) {
+        return fd;
+      }
+    }
+    return null;
+  }
+  public FileData getFileByExternalIndex(Integer index) {
+    Iterator<FileData> i = this.rows.iterator();
+    FileData fd;
+    while (i.hasNext()) {
+      fd = i.next();
+      if (index.equals(fd.external_index())) {
+        return fd;
+      }
+    }
+    return null;
+  }
+
+
     /**
      * Add a file to the panel (at the end of the list)
      * 
@@ -207,15 +237,12 @@ class FilePanelDataModel2 extends AbstractTableModel {
                 this.uploadPolicy.displayWarn("CMD -  "
                     + cmd_string);
                 try {
-                  String[] args = { df.getJSON(this.rows.indexOf(df)) };
+                  String[] args = { df.getJSON() };
                   this.uploadPolicy.performCallback(cmd_string,args,true); // instance call
                 }  catch (JUploadException e) {
                     this.uploadPolicy.displayErr(e);
                   }
               }
-              this.uploadPolicy.displayWarn("JSON Data -  "
-                    + df.getJSON(this.rows.indexOf(df)));  // not efficient.  
-               
                 //
                 // implement to_JSON for default file data
                 // use df.to_JSON to get the string

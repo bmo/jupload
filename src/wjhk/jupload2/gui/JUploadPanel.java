@@ -414,6 +414,8 @@ public class JUploadPanel extends JPanel implements ActionListener,
         String svrRet = this.fileUploadThread.getResponseMsg();
         Exception ex = this.fileUploadThread.getException();
 
+        // TODO do uploadComplete here...
+
         // Restore enable state, as the upload is finished.
         this.stopButton.setEnabled(false);
         this.browseButton.setEnabled(true);

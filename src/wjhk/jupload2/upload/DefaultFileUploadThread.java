@@ -94,11 +94,13 @@ public abstract class DefaultFileUploadThread extends Thread implements
 
     /**
      * If set to 'true', the thread will stop the crrent upload. This attribute
-     * is not private as the {@link UploadFileData} class us it.
+     * is not private as the {@link UploadFileData} class use it.
      * 
      * @see UploadFileData#uploadFile(java.io.OutputStream, long)
      */
     boolean stop = false;
+
+    FileData currentFileData;
 
     /**
      * Thread Exception, if any occured during upload.
@@ -233,9 +235,23 @@ public abstract class DefaultFileUploadThread extends Thread implements
      * @see wjhk.jupload2.upload.FileUploadThread#nbBytesUploaded(long)
      */
     public void nbBytesUploaded(long nbBytes) {
-        this.uploadedLength += nbBytes;
-    }
+      this.uploadedLength += nbBytes;
 
+    }
+    /**
+     * Used by the UploadFileData.uploadFile(java.io.OutputStream, long)
+     * for each uploaded FILE...
+     *
+     * @see wjhk.jupload2.upload.FileUploadThread#nbBytesUploaded(long)
+     */
+    public void nbFileBytesUploaded(long nbBytes) {
+
+      try{
+        this.currentFileData.uploadProgress(nbBytes,this.currentFileData.getUploadLength());
+      } catch (JUploadException ex) {
+        /* do nothing */
+      }
+    }
     /**
      * This method is called before the upload. It calls the
      * {@link FileData#beforeUpload()} method for all files to upload, and
@@ -524,6 +540,7 @@ public abstract class DefaultFileUploadThread extends Thread implements
             this.uploadException = e;
             this.uploadPolicy.displayErr(e);
             this.progressBar.setString(e.getMessage());
+            // TODO report f.errorUpload();
         } finally {
             // In all cases, we try to free all reserved resources.
             this.uploadPolicy.displayDebug(
@@ -685,6 +702,10 @@ public abstract class DefaultFileUploadThread extends Thread implements
                 for (int i = 0; i < nbFilesToUpload && !this.stop; i++) {
                     // Write to Server the head(4 Lines), a File and the tail.
 
+
+                    // do javascript callbacks
+                    this.filesToUpload[firstFileToUpload+i].uploadStart();
+
                     // Let's add any file-specific header.
                     beforeFile(firstFileToUpload + i);
 
@@ -698,6 +719,8 @@ public abstract class DefaultFileUploadThread extends Thread implements
                     }
 
                     // Actual upload of the file:
+                    this.currentFileData = this.filesToUpload[firstFileToUpload + i];
+
                     this.filesToUpload[firstFileToUpload + i].uploadFile(
                             getOutputStream(), thisChunkSize);
 
@@ -708,6 +731,9 @@ public abstract class DefaultFileUploadThread extends Thread implements
                             this.progressBar.setString(String
                                     .format(this.uploadPolicy
                                             .getString("infoUploaded"), msg));
+
+
+
                         if (this.filesToUpload[firstFileToUpload + i]
                                 .getRemainingLength() > 0) {
                             this.uploadException = new JUploadExceptionUploadFailed(
@@ -720,6 +746,7 @@ public abstract class DefaultFileUploadThread extends Thread implements
                                             + " bytes.");
                         }
                     }
+
                     // Let's add any file-specific header.
                     afterFile(firstFileToUpload + i);
                 }
@@ -731,19 +758,29 @@ public abstract class DefaultFileUploadThread extends Thread implements
 
                 // We now ask to the uploadPolicy, if it was a success.
                 // If not, the isUploadSuccessful should raise an exception.
-                if (!this.stop)
+                if (!this.stop){
                     this.uploadPolicy.checkUploadSuccess(status,
                             getResponseMsg(), getResponseBody());
+                  if (1 == nbFilesToUploadParam)
+                      this.filesToUpload[firstFileToUpload].uploadSuccess(getResponseBody()); // UPLOAD_STOPPED  - javascript callback
 
+                } else{
+                if (1 == nbFilesToUploadParam)
+                  this.filesToUpload[firstFileToUpload].uploadError(-290,"File Upload Stopped"); // UPLOAD_STOPPED  - javascript callback
+                }
             } catch (Exception e) {
                 this.uploadException = e;
                 bReturn = false;
+                if (1 == nbFilesToUploadParam)
+                   this.filesToUpload[firstFileToUpload].uploadError(-200,"File Upload Failed  "+getResponseMsg());
                 /*
                  * The error will be managed by the main thread. We just store
                  * it, for now. this.uploadPolicy.displayErr(this.uploadPolicy
                  * .getString("errDuringUpload"), e);
                  */
             }
+            if (1 == nbFilesToUploadParam)
+                this.filesToUpload[firstFileToUpload].uploadComplete( );
 
             // Debug output: always called, so that the debug file is correctly
             // filled.

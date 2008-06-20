@@ -1316,6 +1316,14 @@ public interface UploadPolicy {
      */
     public String getCallBackString(String callBackName);
 
+    /**
+     * Retrieves the status of the file upload in JSON format
+     *
+     * @return The stats object, JSON string
+     */
+    public String getStatsJSON();
+
+
   /**
      * Retrieves the current value for the specified callback.
      *

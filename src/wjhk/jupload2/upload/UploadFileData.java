@@ -81,6 +81,8 @@ class UploadFileData implements FileData {
 
     private int status = 0;
 
+    private long filebytes; // number of bytes written to the file
+
     // /////////////////////////////////////////////////////////////////////////////////////////////////////
     // //////////////////////////////////// CONSTRUCTOR
     // ///////////////////////////////////////////
@@ -192,6 +194,8 @@ class UploadFileData implements FileData {
             if (towrite > 0) {
                 try {
                     outputStream.write(this.readBuffer, 0, towrite);
+                    this.filebytes += towrite;
+                    this.fileUploadThread.nbFileBytesUploaded(this.filebytes);
                     this.fileUploadThread.nbBytesUploaded(towrite);
                     amount -= towrite;
                     this.uploadRemainingLength -= towrite;
@@ -202,6 +206,25 @@ class UploadFileData implements FileData {
             }
         }// while
     }
+
+/* fire the callbacks to Javascript */
+  public void uploadStart() {
+    this.fileData.uploadStart();
+  }
+  public void uploadComplete() {
+    this.fileData.uploadComplete();
+  }
+  public void uploadProgress(Long bytes_complete, Long total_bytes) {
+    this.fileData.uploadProgress(bytes_complete,total_bytes);
+  }
+  /* fire upload Success back to javascript */
+  public void uploadSuccess(String server_response) {
+    this.fileData.uploadSuccess(server_response);
+  }
+/* fire upload error back to javascript */
+  public void uploadError(Integer error_code, String message) {
+    this.fileData.uploadError(error_code,message);
+  }
 
     /**
      * This method closes the inputstream, and remove the file from the
@@ -287,6 +310,7 @@ class UploadFileData implements FileData {
             }
             // Ok, this is the start of upload for this file. Let's get its
             // InputStream.
+            this.filebytes = 0;
             this.inputStream = this.fileData.getInputStream();
         }
         return this.inputStream;
@@ -307,6 +331,18 @@ class UploadFileData implements FileData {
         return this.fileData.getRelativeDir();
     }
 
+    /** {@inheritDoc} */
+    public String external_id() {
+      return this.fileData.external_id();
+    }
+    /** {@inheritDoc} */
+    public int external_index() {
+      return this.fileData.external_index();
+    }
+    /** {@inheritDoc} */
+    public String getJSON() {
+      return this.fileData.getJSON();
+    }
     /**
      * Retrieves the file name, that should be used in the server application.
      * Default is to send the original filename.

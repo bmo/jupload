@@ -64,7 +64,13 @@ public interface FileUploadThread {
      * @param nbBytes Number of bytes uploaded.
      */
     public void nbBytesUploaded(long nbBytes);
-
+  /**
+     * Indicate to the UploadThread that nbBytes bytes have been uploaded to the
+     * server FOR THE CURRENT FILE. 
+     *
+     * @param nbBytes Number of bytes uploaded FOR THE CURRENT FILE.
+     */
+    public void nbFileBytesUploaded(long nbBytes);
     /**
      * @return The current number of bytes, already uploaded in this thread.
      */

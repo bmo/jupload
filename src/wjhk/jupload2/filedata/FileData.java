@@ -146,13 +146,23 @@ public interface FileData {
      */
     public String getMimeType();
 
-    /**
+
+    public void uploadStart();
+  
+    public void uploadProgress(Long bytes_complete, Long total_bytes);
+
+    public void uploadComplete();
+
+    public void uploadError(Integer error_code, String message);
+
+    public void uploadSuccess(String server_response);
+   /**
      * This function return the FileData in JSON format, so it can be eval'd in a browser.
      *
      * @return The File in JSON format.
      */
     
-    public String getJSON( int index) ;
+    public String getJSON() ;
 
     /**
      * Indicate if this file can be read. Take care of the File.canRead() methods, that seems to be
@@ -178,6 +188,7 @@ public interface FileData {
     public String getRelativeDir();
 
     public int status();
-
+    public int external_index(); /* an index provided for compatibilty to outside */
+    public String external_id(); /* a name identifier for compatiblity to outside */
     public int  setStatus(int mstatus);
 }

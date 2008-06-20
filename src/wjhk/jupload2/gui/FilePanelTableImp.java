@@ -25,6 +25,7 @@ import java.awt.Component;
 import java.awt.Panel;
 import java.awt.Point;
 import java.io.File;
+import java.util.Iterator;
 
 import javax.swing.JScrollPane;
 import javax.swing.table.TableColumnModel;
@@ -124,7 +125,13 @@ public class FilePanelTableImp extends Panel implements FilePanel {
         }
         return files;
     }
-
+    public FileData getFileByExternalId(String fid) {
+    return this.model.getFilebByExternalId(fid);
+  }
+  
+  public FileData getFileByExternalIndex(Integer index) {
+    return this.model.getFileByExternalIndex(index);
+  }
     /**
      * @see wjhk.jupload2.gui.FilePanel#getFilesLength()
      */
