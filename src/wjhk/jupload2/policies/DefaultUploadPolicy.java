@@ -143,6 +143,11 @@ public class DefaultUploadPolicy implements UploadPolicy {
     private String allowedFileExtensions = UploadPolicy.DEFAULT_ALLOWED_FILE_EXTENSIONS;
 
     /**
+     * Contains the allowedFileExtensions applet parameter.
+     */
+    private String ignoredDirectoryRegex = UploadPolicy.DEFAULT_IGNORED_DIRECTORY_REGEX;
+
+  /**
      * Indicate whether the log window is shown or not to the user. In all cases
      * it remains in memory, and stores all debug information. This allows a log
      * information, in case of an error occurs.
@@ -275,8 +280,8 @@ public class DefaultUploadPolicy implements UploadPolicy {
     private int     upload_cancelled=0;     // The number of files that have been cancelled
     private int     queue_errors=0;         // The number of files that caused fileQueueError to be fired
 
-
-    private String javascriptInstanceName = "JUpload.instances['jupload_0']";        // TODO - change this to Null, and make it be set.
+    private String javascriptInstancePrefix = "JUpload.instances"; //
+    
 
     // //////////////////////////////////////////////////////////////////////////////////////////////
     // /////////////////// INTERNAL ATTRIBUTE
@@ -461,6 +466,8 @@ public class DefaultUploadPolicy implements UploadPolicy {
         setFilenameSuppressSuffix(UploadPolicyFactory.getParameter(theApplet,PROP_FILENAME_SUPPRESS_SUFFIX, false,
                 this));
         setFilenameFormvarName(UploadPolicyFactory.getParameter(theApplet,PROP_FORM_VAR_NAME, null,
+                this));
+        setIgnoreDirectoryRegex(UploadPolicyFactory.getParameter(theApplet, PROP_IGNORE_DIRECTORY_REGEX, null,
                 this));
 
         // get the filenameEncoding. If not null, it should be a valid argument
@@ -699,16 +706,16 @@ public class DefaultUploadPolicy implements UploadPolicy {
                   }
                 }
                 
-                //if ( args.length==0) {s_args = "null";} else {s_args = "["+s_args+"]";}
-                if (use_instance && (null!=this.javascriptInstanceName)){ // Do instance call, JUpload.instances['jupload_0'].function.apply(JUpload.instances['jupload_0'],args)
-                  instanced_function = this.javascriptInstanceName+"."+function+"("+s_args+")";
+                
+                if (use_instance && (null!=this.applet.getParameter("NAME"))){ // Do instance call, JUpload.instances['jupload_0'].function.apply(JUpload.instances['jupload_0'],args)
+                  instanced_function = this.javascriptInstancePrefix+"[\""+this.applet.getParameter("NAME")+"\"]."+function+"("+s_args+")";
                   // turn into function.apply(JUpload['jupload_0'],(args))
                 } else { // do a class call, like JUpload.JUploadReady.apply(JUpload.instances['jupload_0'],null)
                   //instanced_function = function+".apply("+this.javascriptInstanceName+","+s_args+")";
                   instanced_function = function+"("+s_args+")";
                 }
                 // A JavaScript expression was specified. Execute it.
-                displayWarn("performCallback with "+instanced_function);
+                displayDebug("performCallback with "+instanced_function,20);
                 return_val =  JSObject.getWindow(getApplet()).eval(instanced_function);
                 return return_val;
             } catch (Exception ee) {
@@ -1389,6 +1396,8 @@ public class DefaultUploadPolicy implements UploadPolicy {
                 + getAllowHttpPersistent(), 20);
         displayDebug(PROP_ALLOWED_FILE_EXTENSIONS + ": "
                 + getAllowedFileExtensions(), 20);
+        displayDebug(PROP_IGNORE_DIRECTORY_REGEX + ": "
+                + getIgnoreDirectoryRegex(), 20);
         displayDebug(PROP_DEBUG_LEVEL + ": " + this.debugLevel
                 + " (debugfile: " + debugFile.getAbsolutePath() + ")", 1);
         displayDebug(PROP_FILE_CHOOSER_ICON_FROM_FILE_CONTENT + ": "
@@ -1487,14 +1496,10 @@ public class DefaultUploadPolicy implements UploadPolicy {
     return (String) s_callbacks.get(property_name);
   }
 
-  public String getJavascripInstanceName() {
-    return this.javascriptInstanceName;
+  public String getJavascriptInstanceName() {
+    return this.applet.getParameter("NAME");
   }
   
-  public void setJavascripInstanceName(String the_name) {
-     this.javascriptInstanceName=the_name;
-  }
-
   public void setFilenamePrefix(String prefix){
        this.filenamePrefix = prefix;    
     }
@@ -1520,6 +1525,13 @@ public class DefaultUploadPolicy implements UploadPolicy {
      */
     public boolean getAllowHttpPersistent() {
         return this.allowHttpPersistent;
+    }
+    protected void setIgnoreDirectoryRegex(String ignoreDirectoryRegex) {
+      this.ignoredDirectoryRegex=ignoreDirectoryRegex;
+    }
+
+    protected String getIgnoreDirectoryRegex() {
+      return this.ignoredDirectoryRegex;
     }
 
     /** @see UploadPolicy#getAllowedFileExtensions() */
@@ -2143,7 +2155,25 @@ public class DefaultUploadPolicy implements UploadPolicy {
     public JUploadFileChooser createFileChooser() {
         return new JUploadFileChooser(this);
     }
-
+  /**
+     * This method returns the response for the
+     * {@link JUploadFileFilter#accept(File)} which just calls this method. This
+     * method checks that the file isn't excluded by the ignoreDirectoryRegex
+     * applet parameter.
+     *
+     * @see UploadPolicy#fileFilterAccept(File)
+     */
+     public boolean directoryFilterAccept(File file) {
+        if (file.isDirectory()) {
+          //
+          displayDebug("Directory filter directory: " + file.getName()+"\n regex: "+this.ignoredDirectoryRegex, 10);
+          if (this.ignoredDirectoryRegex.length()>0 && file.getName().matches(this.ignoredDirectoryRegex)){
+            displayDebug("Ignored", 10);
+              return false;
+          }
+        }
+      return true;
+  }
     /**
      * This method returns the response for the
      * {@link JUploadFileFilter#accept(File)} which just calls this method. This
@@ -2154,8 +2184,9 @@ public class DefaultUploadPolicy implements UploadPolicy {
      */
     public boolean fileFilterAccept(File file) {
         if (file.isDirectory()) {
-            return true;
-        } else if (this.allowedFileExtensions == null
+           return directoryFilterAccept(file);
+          }
+        else if (this.allowedFileExtensions == null
                 || this.allowedFileExtensions.equals("")) {
             return true;
         } else {
@@ -2176,11 +2207,14 @@ public class DefaultUploadPolicy implements UploadPolicy {
 
     /** @see UploadPolicy#fileFilterGetDescription() */
     public String fileFilterGetDescription() {
-        if (this.allowedFileExtensions == null
-                || this.allowedFileExtensions.equals(""))
-            return null;
+      String fileFilterDesc =
+        (this.allowedFileExtensions == null
+                || this.allowedFileExtensions.equals("") ? "" : "JUpload file filter (" + this.allowedFileExtensions + ")");
 
-        return "JUpload file filter (" + this.allowedFileExtensions + ")";
+       String directoryFilterDesc = (this.ignoredDirectoryRegex == null
+                || this.ignoredDirectoryRegex.equals("") ? "" : "JUpload directory filter ignore (" + this.ignoredDirectoryRegex + ")");
+
+        return fileFilterDesc+" "+directoryFilterDesc;
     }
 
     /**

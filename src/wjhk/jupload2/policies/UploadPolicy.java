@@ -858,11 +858,17 @@ public interface UploadPolicy {
      */
 
     public final static String PROP_FORM_VAR_NAME = "form_var_name";
+
+
     /**
      * Parameter/Property name for specifying high quality previews.
      */
     public final static String PROP_HIGH_QUALITY_PREVIEW = "highQualityPreview";
 
+  /**
+     * Parameter/Property name for specifying the regex for IGNORED directories, for example .svn
+     */
+    public final static String PROP_IGNORE_DIRECTORY_REGEX = "ignoreDirectoryRegex";
     /**
      * Parameter/Property name for specifying the UI language
      */
@@ -1012,6 +1018,11 @@ public interface UploadPolicy {
      * Default value for parameter "allowedFileExtensions".
      */
     public final static String DEFAULT_ALLOWED_FILE_EXTENSIONS = "";
+
+  /**
+     * Default value for parameter "ignoredDirectoryRegex".
+     */
+    public final static String DEFAULT_IGNORED_DIRECTORY_REGEX = "";
 
     /**
      * Default value for parameter "albumId".
@@ -1329,7 +1340,7 @@ public interface UploadPolicy {
      *
      * @return The current value for the specified callback.
      */
-    public String getJavascripInstanceName();
+    public String getJavascriptInstanceName();
    
     /**
      * Retrieves the current value for allowHttpPersistent
@@ -1635,6 +1646,22 @@ public interface UploadPolicy {
      *      wjhk.jupload2.gui.JUploadTextArea, UploadPolicy)
      */
     public boolean fileFilterAccept(File file);
+
+  /**
+     * This methods is called by the {@link JUploadFileFilter#accept(File)}. It
+     * allows the current upload policy to filter directories, according to any
+     * choosen applet behaviour. This filter applied WHEN USING THE FILE CHOOSER *AND*
+     * when directories are being swept for files. Files dropped onto the applet won't trigger this function.<br>
+     * In the {@link DefaultUploadPolicy} upload policy, this filter is based on
+     * the applet parameter: <i>ignoreDirectoryRegex</i>.
+     *
+     * @param file file (directory) to test
+     * @return true or false, whether the file (directory) is accepted or not.
+     *
+     * @see JUploadPanel#JUploadPanel(java.awt.Container,
+     *      wjhk.jupload2.gui.JUploadTextArea, UploadPolicy)
+     */
+    public boolean directoryFilterAccept(File file);
 
     /**
      * Return a description for the FileFilter, according to the current upload

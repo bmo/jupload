@@ -241,11 +241,11 @@ public class JavascriptHandler extends Thread {
                           if (args[0] instanceof String) {
                             uploadPolicy.displayDebug(
                                 "Argument is "+args[0], 50);
-                            //jUploadPanel.doStartUploadSingle((String) args[0]);
+                            jUploadPanel.doStartUpload();
                           } else if (args[0] instanceof Integer){
                             uploadPolicy.displayDebug(
                                 "Argument is an int"+ args[0].toString(), 50);
-                            //jUploadPanel.doStartUploadSingle((Integer) args[0]);
+                            jUploadPanel.doStartUpload(); //jUploadPanel.doStartUploadSingle((Integer) args[0]);
                           }
                         } else {
                           jUploadPanel.doStartUpload();  //
@@ -265,10 +265,22 @@ public class JavascriptHandler extends Thread {
                         notified=true;
                         doNotify(); // don't wait -
                         uploadPolicy.displayDebug(
-                                "run(): Calling doCancelUpload()", 50);
-                         jUploadPanel.doStopUpload();
-                        //jUploadPanel.doStopUpload();
-                        this.jsResponse = "ASYNC";
+                           "run(): Calling doCancelUpload()", 50);
+                        if (args.length>0 && (args[0]!=null)) {
+                          // do single upload of a particular file
+                          if (args[0] instanceof String) {
+                            uploadPolicy.displayDebug(
+                                "Argument is "+args[0], 50);
+                            jUploadPanel.getFilePanel().removeFilebByExternalId(args[0].toString());
+                          } else {
+                            uploadPolicy.displayDebug(
+                                "Bad Argument ", 50);
+                            }
+
+                        } else {
+                           jUploadPanel.getFilePanel().removeFilebByExternalId(null);  //
+                          this.jsResponse=null;
+                        }
                     }
                     if (curCommand.equals(COMMAND_GET_STATS)) {
                       String gsj = uploadPolicy.getStatsJSON();

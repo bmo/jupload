@@ -263,6 +263,9 @@ public class JUploadApplet extends Applet {
     public String cancelUpload() {
         return this.jsHandler.doCommand(JavascriptHandler.COMMAND_CANCEL_UPLOAD);
     }
+    public String cancelUpload(String fileId) {
+        return this.jsHandler.doCommand(JavascriptHandler.COMMAND_CANCEL_UPLOAD,fileId);
+    }
     /**
      * example public method that can be called by Javascript to get overall status
      *

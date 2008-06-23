@@ -303,7 +303,8 @@ public class DefaultFileData implements FileData {
                 this.uploadPolicy.displayWarn("uploadError callback - CMD -  "
                     + cmd_string);
                 try {
-                  String[] args = { this.getJSON(), error_code.toString(), message };
+
+                  String[] args = { this.getJSON(), error_code.toString(), '"'+message+'"' };
                   this.uploadPolicy.performCallback(cmd_string,args,true); // instance call
                 }  catch (JUploadException e) {
                     this.uploadPolicy.displayErr(e);
@@ -356,13 +357,15 @@ public class DefaultFileData implements FileData {
    */
   public String getJSON() {
     String json_obj;
+    String reldir = this.getRelativeDir().replaceAll("\\\\", "/");
+    // normalize to forward slash...
     /* TODO creation_date, modification_date, filestatus */
     json_obj = "{ id : '" +  this.ext_id + "', " +
             "  index : " +  this.ext_index + ", " +
             "  name : '" + this.getFileName() + "'," +
             "  size : " + this.fileSize + "," +
             "  type : '" + this.getFileExtension() + "'," +
-            "  relative_path : '" + this.getRelativeDir()+ "'," +
+            "  relative_path : '" + reldir + "'," +
             "  filestatus : "+ this.status +
             " } ";
     return json_obj;

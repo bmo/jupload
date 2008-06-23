@@ -34,6 +34,7 @@ import wjhk.jupload2.exception.JUploadExceptionStopAddingFiles;
 import wjhk.jupload2.filedata.FileData;
 import wjhk.jupload2.policies.UploadPolicy;
 
+
 /**
  * Implementation of the FilePanel : it creates the
  * {@link wjhk.jupload2.gui.FilePanelJTable}, and handles the necessary
@@ -52,7 +53,7 @@ public class FilePanelTableImp extends Panel implements FilePanel {
     private FilePanelJTable jtable;
 
     private FilePanelDataModel2 model;
-
+    private UploadPolicy uploadPolicy;
     /**
      * Creates a new instance.
      * 
@@ -66,6 +67,7 @@ public class FilePanelTableImp extends Panel implements FilePanel {
         this.jtable = new FilePanelJTable(jup, uploadPolicy);
 
         this.model = new FilePanelDataModel2(uploadPolicy);
+        this.uploadPolicy = uploadPolicy;
         this.jtable.setModel(this.model);
 
         TableColumnModel colModel = this.jtable.getColumnModel();
@@ -98,7 +100,8 @@ public class FilePanelTableImp extends Panel implements FilePanel {
         } else {
             File[] dirFiles = f.listFiles();
             for (int i = 0; i < dirFiles.length; i++) {
-                if (dirFiles[i].isDirectory()) {
+                if (dirFiles[i].isDirectory() ) {  //# TODO FILTER OUT directories to ignore here...
+                  if (this.uploadPolicy.directoryFilterAccept(dirFiles[i])) // only add if the file directory is OK too...
                     addDirectoryFiles(dirFiles[i], root);
                 } else {
                     addFileOnly(dirFiles[i], root);
@@ -129,7 +132,7 @@ public class FilePanelTableImp extends Panel implements FilePanel {
     return this.model.getFilebByExternalId(fid);
   }
   
-  public FileData getFileByExternalIndex(Integer index) {
+   public FileData getFileByExternalIndex(Integer index) {
     return this.model.getFileByExternalIndex(index);
   }
     /**
@@ -168,6 +171,36 @@ public class FilePanelTableImp extends Panel implements FilePanel {
     public final void remove(FileData fileData) {
         this.model.removeRow(fileData);
     }
+  /* removes the file with the given fid, *OR* the first one */
+  /* does nothing about the file being uploaded at the time. */
+
+  public FileData removeFilebByExternalId(String fid) {
+    FileData fd;
+    if (null==fid) {
+       fd=this.model.getFileDataAt(0);
+       this.model.removeRow(0);
+       return fd;
+    }
+    for (int i = getFilesLength() - 1; 0 <= i; i--) {
+      fd = this.model.getFileDataAt(i);
+      if (fid.equals(fd.external_id())) {
+        this.model.removeRow(i);
+        return fd;
+      }
+    }
+    return null;
+  }
+   public FileData removeFilebByExternalIndex(Integer index) {
+    for (int i = getFilesLength() - 1; 0 <= i; i--) {
+      FileData fd = this.model.getFileDataAt(i);
+      if (index == fd.external_index()) {
+        this.model.removeRow(i);
+        return fd;
+      }
+    }
+    return null;
+  }
+
 
     /**
      * Clear the current selection in the JTable.

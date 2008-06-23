@@ -62,6 +62,8 @@ public interface FilePanel {
      */
     public void removeSelected();
 
+    public FileData removeFilebByExternalId(String fid);
+  
     /**
      * Removes all file entries.
      */
