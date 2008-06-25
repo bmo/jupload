@@ -310,8 +310,11 @@ public class DefaultFileData implements FileData {
                     this.uploadPolicy.displayErr(e);
                   }
               }
+      
     }
-  
+
+
+
     /** {@inheritDoc} */
     public InputStream getInputStream() throws JUploadException {
         // Standard FileData : we read the file.

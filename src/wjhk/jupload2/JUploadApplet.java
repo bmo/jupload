@@ -257,8 +257,8 @@ public class JUploadApplet extends Applet {
     public String selectFile() {
         return this.jsHandler.doCommand(JavascriptHandler.COMMAND_SELECT_FILE);
     }
-    public String getFile(String file_id) {
-        return this.jsHandler.doCommand(JavascriptHandler.COMMAND_GET_FILE,file_id);
+    public Object getFile(String file_id) {
+        return JSObject.getWindow(this).eval('('+this.jsHandler.doCommand(JavascriptHandler.COMMAND_GET_FILE,file_id)+')');
     }
     public String cancelUpload() {
         return this.jsHandler.doCommand(JavascriptHandler.COMMAND_CANCEL_UPLOAD);

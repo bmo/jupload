@@ -764,15 +764,19 @@ public abstract class DefaultFileUploadThread extends Thread implements
                   if (1 == nbFilesToUploadParam)
                       this.filesToUpload[firstFileToUpload].uploadSuccess(getResponseBody()); // UPLOAD_STOPPED  - javascript callback
 
-                } else{
-                if (1 == nbFilesToUploadParam)
-                  this.filesToUpload[firstFileToUpload].uploadError(-290,"File Upload Stopped"); // UPLOAD_STOPPED  - javascript callback
+                } else {
+                  if (1 == nbFilesToUploadParam) {
+                    this.filesToUpload[firstFileToUpload].uploadError(-290, "File Upload Stopped"); // UPLOAD_STOPPED  - javascript callback
+                    this.filesToUpload[firstFileToUpload].uploadComplete();
+                  }
                 }
             } catch (Exception e) {
                 this.uploadException = e;
                 bReturn = false;
-                if (1 == nbFilesToUploadParam)
+                if (1 == nbFilesToUploadParam) {
                    this.filesToUpload[firstFileToUpload].uploadError(-200,"File Upload Failed  "+getResponseMsg());
+                   this.filesToUpload[firstFileToUpload].uploadComplete();
+                }
                 /*
                  * The error will be managed by the main thread. We just store
                  * it, for now. this.uploadPolicy.displayErr(this.uploadPolicy

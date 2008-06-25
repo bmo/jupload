@@ -307,27 +307,28 @@ class FilePanelDataModel2 extends AbstractTableModel {
             }
         }
     }
-    public synchronized FileData removeFilebByExternalId(String fid) {
-      FileData fd;
-      Iterator<FileData> i = this.rows.iterator();
-      FileData item;
-      if (null==fid && i.hasNext()) {
-          item = i.next();
-        this.rows.removeElement(item);
-                fireTableDataChanged();
-       return item;
-      }
 
-      while (i.hasNext()) {
-            item = i.next();
-            if (item.external_id()==fid) {
-                this.rows.removeElement(item);
-                fireTableDataChanged();
-                break;
-            }
-        }
-      return null;
+  public synchronized FileData removeFilebByExternalId(String fid) {
+    FileData fd;
+    Iterator<FileData> i = this.rows.iterator();
+    FileData item;
+
+    this.uploadPolicy.displayDebug("CMD - removing by external id  "+fid, 10);
+    while (i.hasNext()) {
+      item = i.next();
+      if (item.external_id() == fid || null == fid) {   /* either find the one to remove, or remove the first one */
+        this.rows.removeElement(item);
+        fireTableDataChanged();
+
+        String cmd;
+        item.uploadError(-280,"Cancelled");
+        
+        return item;
       }
+      
+    }
+    return null;
+  }
 
 
     /** @see javax.swing.table.TableModel#getColumnCount() */

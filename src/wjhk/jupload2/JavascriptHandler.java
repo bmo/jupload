@@ -260,7 +260,7 @@ public class JavascriptHandler extends Thread {
                         jUploadPanel.doStopUpload();
                     }
 
-                    if (curCommand.equals(COMMAND_CANCEL_UPLOAD)) {      //* ASYNCHRONOUS -- don't wait the calling thread
+                    if (curCommand.equals(COMMAND_CANCEL_UPLOAD)) {      //* ASYNCHRONOUS, sort of -- don't wait the calling thread
                         // stop the upload
                         notified=true;
                         doNotify(); // don't wait -
@@ -272,6 +272,7 @@ public class JavascriptHandler extends Thread {
                             uploadPolicy.displayDebug(
                                 "Argument is "+args[0], 50);
                             jUploadPanel.getFilePanel().removeFilebByExternalId(args[0].toString());
+
                           } else {
                             uploadPolicy.displayDebug(
                                 "Bad Argument ", 50);

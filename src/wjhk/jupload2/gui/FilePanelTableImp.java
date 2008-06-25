@@ -31,6 +31,7 @@ import javax.swing.JScrollPane;
 import javax.swing.table.TableColumnModel;
 
 import wjhk.jupload2.exception.JUploadExceptionStopAddingFiles;
+import wjhk.jupload2.exception.JUploadException;
 import wjhk.jupload2.filedata.FileData;
 import wjhk.jupload2.policies.UploadPolicy;
 
@@ -176,15 +177,14 @@ public class FilePanelTableImp extends Panel implements FilePanel {
 
   public FileData removeFilebByExternalId(String fid) {
     FileData fd;
-    if (null==fid) {
-       fd=this.model.getFileDataAt(0);
-       this.model.removeRow(0);
-       return fd;
-    }
+
     for (int i = getFilesLength() - 1; 0 <= i; i--) {
       fd = this.model.getFileDataAt(i);
       if (fid.equals(fd.external_id())) {
         this.model.removeRow(i);
+        String cmd;
+        fd.uploadError(-280,"Cancelled");
+        
         return fd;
       }
     }
@@ -195,7 +195,10 @@ public class FilePanelTableImp extends Panel implements FilePanel {
       FileData fd = this.model.getFileDataAt(i);
       if (index == fd.external_index()) {
         this.model.removeRow(i);
+        String cmd;
+        fd.uploadError(-280,"Cancelled");
         return fd;
+        
       }
     }
     return null;
