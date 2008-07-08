@@ -280,15 +280,15 @@ public class HttpConnect {
         req.append("Host: ").append(url.getHost()).append("\r\n");
         req.append("Connection: close\r\n\r\n");
         OutputStream os = s.getOutputStream();
+        this.uploadPolicy.displayDebug("Request: " + req.toString(), 40);
         os.write(req.toString().getBytes());
         os.flush();
-        if (!(s instanceof SSLSocket)) {
-            s.shutdownOutput();
-        }
+
 
         // Let's read the first line, and try to guess the HTTP protocol, and
         // look for 301, 302 or 303 HTTP Return code.
         String firstLine = FileUploadThreadHTTP.readLine(in, "US-ASCII", false);
+
         if (null == firstLine) {
             // Using default value. Already initialized.
             //This can occur, for instance, when Kaspersky antivirus is on !
@@ -322,7 +322,8 @@ public class HttpConnect {
         String nextLine = FileUploadThreadHTTP.readLine(in, "US-ASCII", false);
         Pattern pLocation = Pattern.compile("^Location: (.*)$");
         Matcher mLocation;
-        while ((nextLine = FileUploadThreadHTTP.readLine(in, "US-ASCII", false))
+        if (null != nextLine) {
+          while ((nextLine = FileUploadThreadHTTP.readLine(in, "US-ASCII", false))
                 .length() > 0) {
             if (nextLine.matches("^Server: .*IIS")) {
                 try {
@@ -347,6 +348,12 @@ public class HttpConnect {
                     changePostURL(mLocation.group(1));
                 }
             }
+          }
+        }
+
+
+        if (!(s instanceof SSLSocket)) {
+            s.shutdownOutput();
         }
         // Let's look for the web server kind: the applet works IIS only if
         // allowHttpPersistent is false
