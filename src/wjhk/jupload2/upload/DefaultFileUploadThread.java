@@ -425,6 +425,7 @@ public abstract class DefaultFileUploadThread extends Thread implements
         // class: so we read them as late as possible, that is: here!
         this.maxChunkSize = uploadPolicy.getMaxChunkSize();
         this.nbMaxFilesPerUpload = uploadPolicy.getNbFilesPerRequest();
+        boolean stopAfterEachFile = uploadPolicy.getOneFilePerStart();
 
         // this inhibits status-update (progress bar and status bar)
         // from within the timer loop.
@@ -451,6 +452,7 @@ public abstract class DefaultFileUploadThread extends Thread implements
             int iFirstFileForThisUpload = 0;
             int iNbFilesForThisUpload = 0;
             int currentFile = 0;
+            int fileUploadCount = 0;
             long nextUploadContentLength = 0; // The contentLength of file
             // managed byt the current loop.
             long currentUploadContentLength = 0;// The current contentLength of
@@ -460,8 +462,9 @@ public abstract class DefaultFileUploadThread extends Thread implements
 
             // ////////////////////////////////////////////////////////////////////////////////////////
             // We upload files, according to the current upload policy.
+            // WHILE
             while (iFirstFileForThisUpload + iNbFilesForThisUpload < this.filesToUpload.length
-                    && bUploadOk && !this.stop) {
+                    && bUploadOk && !this.stop && (!stopAfterEachFile || (fileUploadCount<1))) {
                 currentFile = iFirstFileForThisUpload + iNbFilesForThisUpload;
                 // Calculate the size of this file upload
                 nextUploadContentLength = this.filesToUpload[currentFile]
@@ -510,6 +513,7 @@ public abstract class DefaultFileUploadThread extends Thread implements
                     iNbFilesForThisUpload = 0;
                     currentUploadContentLength = 0;
                 }
+                fileUploadCount++; // if we're keeping track, only once through the loop...
             }// while
 
             if (iNbFilesForThisUpload > 0 && bUploadOk && !this.stop) {

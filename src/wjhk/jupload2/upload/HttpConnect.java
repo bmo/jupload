@@ -323,8 +323,8 @@ public class HttpConnect {
         Pattern pLocation = Pattern.compile("^Location: (.*)$");
         Matcher mLocation;
         if (null != nextLine) {
-          while ((nextLine = FileUploadThreadHTTP.readLine(in, "US-ASCII", false))
-                .length() > 0) {
+          while ((nextLine = FileUploadThreadHTTP.readLine(in, "US-ASCII", false))!=null &&
+                 (nextLine.length() > 0)) {
             if (nextLine.matches("^Server: .*IIS")) {
                 try {
                     uploadPolicy.setProperty(

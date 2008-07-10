@@ -284,6 +284,9 @@ public class JavascriptHandler extends Thread {
                         }
                     }
                     if (curCommand.equals(COMMAND_GET_STATS)) {
+                      // update the stats
+                      
+                      
                       String gsj = uploadPolicy.getStatsJSON();
                       // start the upload
                       uploadPolicy.displayDebug(

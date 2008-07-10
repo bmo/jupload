@@ -211,6 +211,11 @@ public class DefaultUploadPolicy implements UploadPolicy {
     private int nbFilesPerRequest = UploadPolicy.DEFAULT_NB_FILES_PER_REQUEST;
 
     /**
+     *  if this is set, we'll only upload one file from the queue per press of the button
+     */
+    private boolean oneFilePerStart = UploadPolicy.DEFAULT_ONE_FILE_PER_START;
+
+    /**
      * Current value (or default value) of the maxChunkSize applet parameter.
      * <BR>
      * Default : Long.MAX_VALUE
@@ -479,6 +484,10 @@ public class DefaultUploadPolicy implements UploadPolicy {
         setNbFilesPerRequest(UploadPolicyFactory.getParameter(theApplet,
                 PROP_NB_FILES_PER_REQUEST, DEFAULT_NB_FILES_PER_REQUEST, this));
 
+       // get the flag for whether or not we're only doing one file upload per press or javascript command.
+        setOneFilePerStart(UploadPolicyFactory.getParameter(theApplet,
+                PROP_ONE_FILE_PER_START, DEFAULT_ONE_FILE_PER_START, this));
+
         // get the maximum size of a file on one HTTP request (indicate if the
         // file must be splitted before upload, see UploadPolicy comment).
         setMaxChunkSize(UploadPolicyFactory.getParameter(theApplet,
@@ -638,7 +647,7 @@ public class DefaultUploadPolicy implements UploadPolicy {
             if (getStringUploadSuccess() != null
                     && !getStringUploadSuccess().equals("")) {
                 if (this.patternSuccess.matcher(line).matches()) {
-                    incrementStatSuccessfulUploads();
+                    //incrementStatSuccessfulUploads();
                     return true;
                 }
             }
@@ -656,7 +665,7 @@ public class DefaultUploadPolicy implements UploadPolicy {
                         }
                     }
                     this.lastResponseMessage = errmsg;
-                    incrementStatUploadErrors();
+                    //incrementStatUploadErrors();
                     throw new JUploadExceptionUploadFailed(errmsg);
                 }
             }
@@ -668,7 +677,7 @@ public class DefaultUploadPolicy implements UploadPolicy {
         if (getStringUploadSuccess() == null
                 || getStringUploadSuccess().equals("")) {
             // No chance to check the correctness of this upload. -> Assume Ok
-            incrementStatSuccessfulUploads();
+            //incrementStatSuccessfulUploads();
             return true;
         }
 
@@ -736,8 +745,15 @@ public class DefaultUploadPolicy implements UploadPolicy {
         String url = getAfterUploadURL();
         setStatInProgress(false); // keep stats up to date
 
+        this.files_queued-=1;
+
+        if (this.files_queued<0)
+             this.files_queued = 0;
         if (null == e) { // update stats..
-         }
+             this.successful_uploads++;
+        } else {
+             this.upload_errors++;
+        }
 
         if (url != null) {
             try {
@@ -824,6 +840,7 @@ public class DefaultUploadPolicy implements UploadPolicy {
        queue_errors = nfiles;
     }
     public String getStatsJSON() {
+
      return("{ \"in_progress\" : "+(in_progress ? 1 : 0)+", \"files_queued\" : "+files_queued+", \"successful_uploads\" : "+successful_uploads+
            ", \"upload_errors\" : "+upload_errors+" , \"upload_cancelled\" : "+upload_cancelled+", \"queue_errors\": "+queue_errors+"}"); // whew.
    }
@@ -836,6 +853,7 @@ public class DefaultUploadPolicy implements UploadPolicy {
      */
     public FileData createFileData(File file, File root)
             throws JUploadExceptionStopAddingFiles {
+        this.files_queued+=1;
         return new DefaultFileData(file, root, this);
     }
 
@@ -1346,6 +1364,8 @@ public class DefaultUploadPolicy implements UploadPolicy {
         } else if (prop.equals(PROP_NB_FILES_PER_REQUEST)) {
             setNbFilesPerRequest(UploadPolicyFactory.parseInt(value,
                     this.nbFilesPerRequest, this));
+        } else if (prop.equals(PROP_ONE_FILE_PER_START)) {
+            setOneFilePerStart(Boolean.parseBoolean(value));
         } else if (prop.equals(PROP_POST_URL)) {
             setPostURL(value);
         } else if (prop.equals(PROP_SERVER_PROTOCOL)) {
@@ -1420,6 +1440,8 @@ public class DefaultUploadPolicy implements UploadPolicy {
             displayInfo(PROP_MAX_FILE_SIZE + ": " + getMaxFileSize());
         }
         displayDebug(PROP_NB_FILES_PER_REQUEST + ": " + getNbFilesPerRequest(),
+                20);
+        displayDebug(PROP_ONE_FILE_PER_START+ ": " + getOneFilePerStart(),
                 20);
         displayDebug(PROP_POST_URL + ": " + this.postURL, 20);
         displayDebug(PROP_SERVER_PROTOCOL + ": " + getServerProtocol(), 20);
@@ -1790,6 +1812,11 @@ public class DefaultUploadPolicy implements UploadPolicy {
         return this.nbFilesPerRequest;
     }
 
+
+    /** @see wjhk.jupload2.policies.UploadPolicy#getOneFilePerStart() */
+    public boolean getOneFilePerStart() {
+        return this.oneFilePerStart;
+    }
     /** @param nbFilesPerRequest the nbFilesPerRequest to set */
     protected void setNbFilesPerRequest(int nbFilesPerRequest) {
         if (nbFilesPerRequest < 0) {
@@ -1799,6 +1826,13 @@ public class DefaultUploadPolicy implements UploadPolicy {
             nbFilesPerRequest = Integer.MAX_VALUE;
         }
         this.nbFilesPerRequest = nbFilesPerRequest;
+    }
+
+   /** @param oneFilePerStart set */
+
+    protected void setOneFilePerStart(boolean oneFilePerStart) {
+
+        this.oneFilePerStart = oneFilePerStart;
     }
 
     /** @see UploadPolicy#getFilenameEncoding() */

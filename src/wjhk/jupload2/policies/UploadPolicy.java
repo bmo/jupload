@@ -915,6 +915,12 @@ public interface UploadPolicy {
     public final static String PROP_NB_FILES_PER_REQUEST = "nbFilesPerRequest";
 
     /**
+     * Parameter/Property name for specifying that only one file will be uploaded
+     * per each press of the start button or javascript start command.
+     */
+    public final static String PROP_ONE_FILE_PER_START = "oneFilePerStart";
+
+    /**
      * Parameter/Property name for specifying compression of the written picture
      * file, if any.
      */
@@ -1113,6 +1119,14 @@ public interface UploadPolicy {
      * CoppermineUploadPolicy forces it to 1.
      */
     public final static int DEFAULT_NB_FILES_PER_REQUEST = -1;
+
+    /**
+     *  Default value for whether we will only upload one file per 
+     *  button press or javascript start command.
+     *
+     *
+     *  */
+    public final static boolean DEFAULT_ONE_FILE_PER_START = false;
 
     /**
      * Default value for parameter "pictureCompressionQuality".
@@ -1465,6 +1479,12 @@ public interface UploadPolicy {
      */
     public int getNbFilesPerRequest();
 
+  /**
+   * Get the flag that indicates whether only one file will be uploaded per pres=s of the
+   * start button, or per javascript command invocation.
+   * @return the boolean flag... true if ONLY ONE FILE PER START.
+   */
+    public boolean getOneFilePerStart();
     /**
      * Get the target URL for upload.
      * 
