@@ -802,8 +802,9 @@ public class DefaultUploadPolicy implements UploadPolicy {
 
     /** @see UploadPolicy#alertStr(String) */
     public void alertStr(String str) {
-        JOptionPane.showMessageDialog(null, str, "Alert",
+        if (false) { JOptionPane.showMessageDialog(null, str, "Alert",
                 JOptionPane.WARNING_MESSAGE);
+        }
     }
 
     /** @see UploadPolicy#alert(String) */

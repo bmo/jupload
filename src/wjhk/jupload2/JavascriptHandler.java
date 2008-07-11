@@ -25,6 +25,7 @@ package wjhk.jupload2;
 import wjhk.jupload2.gui.JUploadPanel;
 import wjhk.jupload2.policies.UploadPolicy;
 import wjhk.jupload2.filedata.FileData;
+import wjhk.jupload2.exception.JUploadException;
 
 
 /**
@@ -278,7 +279,8 @@ public class JavascriptHandler extends Thread {
                                 "Bad Argument ", 50);
                             }
 
-                        } else {
+                        } else {   // cancel the current upload
+                           jUploadPanel.doStopUpload();
                            jUploadPanel.getFilePanel().removeFilebByExternalId(null);  //
                           this.jsResponse=null;
                         }
@@ -344,8 +346,11 @@ public class JavascriptHandler extends Thread {
                 uploadPolicy.displayDebug("Interrupted: ["
                         + eInterrupted.getMessage() + "]", 50);
             } catch (Exception eOther) {
-                uploadPolicy.displayDebug("Exception: [" + eOther.toString()+eOther.getMessage()
+                try { throw new JUploadException(eOther); }
+                catch (Exception ex) {
+                 uploadPolicy.displayDebug("Exception: [" + eOther.toString()+eOther.getMessage()
                         + "]", 50);
+                }
             }
         }
     } // run()

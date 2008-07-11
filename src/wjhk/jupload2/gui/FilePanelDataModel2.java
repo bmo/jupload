@@ -313,7 +313,8 @@ class FilePanelDataModel2 extends AbstractTableModel {
     Iterator<FileData> i = this.rows.iterator();
     FileData item;
 
-    this.uploadPolicy.displayDebug("CMD - removing by external id  "+fid, 10);
+    this.uploadPolicy.displayDebug("removeFilebByExternalId: removing by external id ", 10);
+    if (fid!=null) this.uploadPolicy.displayDebug("removeFilebByExternalId:  external id is "+fid, 10);
     while (i.hasNext()) {
       item = i.next();
       if (item.external_id() == fid || null == fid) {   /* either find the one to remove, or remove the first one */

@@ -138,6 +138,8 @@ public class FileUploadThreadHTTP extends DefaultFileUploadThread {
      */
     private StringBuffer sbHttpResponseBody = null;
 
+
+    
     /**
      * Creates a new instance.
      * 

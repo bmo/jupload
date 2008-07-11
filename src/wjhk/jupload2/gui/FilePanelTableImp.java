@@ -178,9 +178,11 @@ public class FilePanelTableImp extends Panel implements FilePanel {
   public FileData removeFilebByExternalId(String fid) {
     FileData fd;
 
-    for (int i = getFilesLength() - 1; 0 <= i; i--) {
+    for (int i = 0; i  <= getFilesLength() - 1; i++) {
       fd = this.model.getFileDataAt(i);
-      if (fid.equals(fd.external_id())) {
+      if ((fid == null) || fid.equals(fd.external_id())) {
+        this.uploadPolicy.displayDebug("removeFilebByExternalId: removing by external id  ", 10);
+        if (fid!=null) this.uploadPolicy.displayDebug("removeFilebByExternalId:  external id is "+fid, 10);
         this.model.removeRow(i);
         String cmd;
         fd.uploadError(-280,"Cancelled");

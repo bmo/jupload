@@ -100,6 +100,10 @@ public abstract class DefaultFileUploadThread extends Thread implements
      */
     boolean stop = false;
 
+    /* the last type we reported uploadProgress, what was the byte count that we reported? */
+  
+    long bytesReported = 0;
+
     FileData currentFileData;
 
     /**
@@ -245,11 +249,13 @@ public abstract class DefaultFileUploadThread extends Thread implements
      * @see wjhk.jupload2.upload.FileUploadThread#nbBytesUploaded(long)
      */
     public void nbFileBytesUploaded(long nbBytes) {
-
-      try{
-        this.currentFileData.uploadProgress(nbBytes,this.currentFileData.getUploadLength());
-      } catch (JUploadException ex) {
+      if (bytesReported==0 || (nbBytes-bytesReported > 102400)) {
+        try{
+          this.currentFileData.uploadProgress(nbBytes,this.currentFileData.getUploadLength());
+        } catch (JUploadException ex) {
         /* do nothing */
+        }
+        bytesReported = nbBytes;
       }
     }
     /**
@@ -700,6 +706,9 @@ public abstract class DefaultFileUploadThread extends Thread implements
                 }
 
                 // Ok, we've prepare the job for chunk upload. Let's do it!
+
+                bytesReported = 0; // init to zero...
+
                 startRequest(contentLength, bChunkEnabled, chunkPart,
                         bLastChunk);
 
