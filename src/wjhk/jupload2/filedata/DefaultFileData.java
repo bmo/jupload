@@ -29,6 +29,8 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import wjhk.jupload2.exception.JUploadException;
 import wjhk.jupload2.exception.JUploadExceptionTooBigFile;
@@ -358,6 +360,12 @@ public class DefaultFileData implements FileData {
   /**
    * {@inheritDoc}
    */
+  private String sanitize(String str){
+    String patt="[\\p{Cntrl}]";
+    Pattern r = Pattern.compile(patt);
+    Matcher m = r.matcher(str);
+    return m.replaceAll("_");
+  }
   public String getJSON() {
     String json_obj;
     String reldir = this.getRelativeDir().replaceAll("\\\\", "/");
@@ -365,10 +373,10 @@ public class DefaultFileData implements FileData {
     /* TODO creation_date, modification_date, filestatus */
     json_obj = "{ id : '" +  this.ext_id + "', " +
             "  index : " +  this.ext_index + ", " +
-            "  name : '" + this.getFileName() + "'," +
+            "  name : '" + sanitize(this.getFileName()) + "'," +
             "  size : " + this.fileSize + "," +
-            "  type : '" + this.getFileExtension() + "'," +
-            "  relative_path : '" + reldir + "'," +
+            "  type : '" + sanitize(this.getFileExtension()) + "'," +
+            "  relative_path : '" + sanitize(reldir) + "'," +
             "  filestatus : "+ this.status +
             " } ";
     return json_obj;

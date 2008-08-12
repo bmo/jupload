@@ -267,13 +267,21 @@ public class JavascriptHandler extends Thread {
                         doNotify(); // don't wait -
                         uploadPolicy.displayDebug(
                            "run(): Calling doCancelUpload()", 50);
+                        uploadPolicy.displayDebug(
+                                "Argument length is  "+args.length, 50);
                         if (args.length>0 && (args[0]!=null)) {
                           // do single upload of a particular file
                           if (args[0] instanceof String) {
                             uploadPolicy.displayDebug(
-                                "Argument is "+args[0], 50);
-                            jUploadPanel.getFilePanel().removeFilebByExternalId(args[0].toString());
-
+                                "cancel upload Argument is "+args[0], 50);
+                              String id = (String) args[0];
+                              if (id.length() >0)
+                                jUploadPanel.getFilePanel().removeFilebByExternalId(args[0].toString());
+                              else{
+                                uploadPolicy.displayDebug(
+                                "Argument is empty", 50);
+                                jUploadPanel.getFilePanel().removeFilebByExternalId(null);  //
+                              }
                           } else {
                             uploadPolicy.displayDebug(
                                 "Bad Argument ", 50);
@@ -287,9 +295,13 @@ public class JavascriptHandler extends Thread {
                     }
                     if (curCommand.equals(COMMAND_GET_STATS)) {
                       // update the stats
-                      
-                      
-                      String gsj = uploadPolicy.getStatsJSON();
+                      int[] a5 = jUploadPanel.doGetUploadStats();
+
+                      String rval;
+                      rval = "{ \"in_progress\" : "+(a5[0])+", \"files_queued\" : "+a5[4]+", \"successful_uploads\" : "+a5[1]+
+                             ", \"upload_errors\" : "+a5[3]+" , \"upload_cancelled\" : "+a5[2]+", \"queue_errors\": "+0+"}"; // whew.
+
+                      String gsj = rval;
                       // start the upload
                       uploadPolicy.displayDebug(
                               "run(): Calling getStats()", 50);

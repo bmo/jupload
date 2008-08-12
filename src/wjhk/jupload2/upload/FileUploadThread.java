@@ -115,4 +115,9 @@ public interface FileUploadThread {
      */
     public void start();
 
+  /**
+   * @return array of stats on the upload --- in_progress, successful, cancelled, error
+   */
+    public int[] getUploadStats();
+
 }

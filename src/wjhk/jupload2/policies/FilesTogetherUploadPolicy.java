@@ -33,6 +33,8 @@ import wjhk.jupload2.JUploadApplet;
 import wjhk.jupload2.exception.JUploadException;
 import wjhk.jupload2.gui.JUploadPanel;
 
+import javax.swing.*;
+
 /**
  * 
  * Upload policy that is a simple box. It's a 'simple' drop target. Upload
@@ -64,11 +66,14 @@ public class FilesTogetherUploadPolicy extends DefaultUploadPolicy {
      */
 
     public void addComponentsToJUploadPanel(JUploadPanel jUploadPanel) {
+        JProgressBar progressBar;
         // Set the global layout of the panel.
         jUploadPanel.setLayout(new GridLayout(1, 1));
         jUploadPanel.setLayout(new BorderLayout());
         // Then, add on the screen of the only component that is visible.
-        jUploadPanel.add(jUploadPanel.getProgressBar(), BorderLayout.CENTER);
+        progressBar = jUploadPanel.getProgressBar();
+
+        if (null != progressBar) jUploadPanel.add(progressBar, BorderLayout.CENTER);
         // Now, we add the log window.
         jUploadPanel.showOrHideLogWindow();
         jUploadPanel.add(jUploadPanel.getJLogWindowPane(), BorderLayout.SOUTH);

@@ -22,6 +22,7 @@
 package wjhk.jupload2.upload;
 
 import java.io.OutputStream;
+import java.util.Date;
 
 import javax.swing.JProgressBar;
 
@@ -103,7 +104,21 @@ public abstract class DefaultFileUploadThread extends Thread implements
     /* the last type we reported uploadProgress, what was the byte count that we reported? */
   
     long bytesReported = 0;
+    long msecsReported = 0;
 
+    int nbSuccessfulUploads = 0;
+    int nbCancelledUploads = 0;
+    int nbErrorUploads=0;
+
+    public int[] getUploadStats(){
+     int[] a4 = new int[4];
+     a4[0] = (this.stop ? 0:1);
+     a4[1] = nbSuccessfulUploads;
+     a4[2] = nbCancelledUploads;
+     a4[3] = nbErrorUploads;
+     return a4;
+    }
+  
     FileData currentFileData;
 
     /**
@@ -249,12 +264,16 @@ public abstract class DefaultFileUploadThread extends Thread implements
      * @see wjhk.jupload2.upload.FileUploadThread#nbBytesUploaded(long)
      */
     public void nbFileBytesUploaded(long nbBytes) {
-      if (bytesReported==0 || (nbBytes-bytesReported > 102400)) {
+      long now = (new Date()).getTime();
+      //this.uploadPolicy.displayDebug(
+      //              "nbFileBytesUploaded: time difference "+(now-msecsReported), 70);
+      if (bytesReported==0 || ((now-msecsReported) > 800)) {  // only update every XXX seconds, otherwise callback traffic too much
         try{
           this.currentFileData.uploadProgress(nbBytes,this.currentFileData.getUploadLength());
         } catch (JUploadException ex) {
         /* do nothing */
         }
+        msecsReported = now;
         bytesReported = nbBytes;
       }
     }
@@ -549,7 +568,7 @@ public abstract class DefaultFileUploadThread extends Thread implements
             bUploadOk = false;
             this.uploadException = e;
             this.uploadPolicy.displayErr(e);
-            this.progressBar.setString(e.getMessage());
+            if (null!=this.progressBar) this.progressBar.setString(e.getMessage());
             // TODO report f.errorUpload();
         } finally {
             // In all cases, we try to free all reserved resources.
@@ -708,7 +727,8 @@ public abstract class DefaultFileUploadThread extends Thread implements
                 // Ok, we've prepare the job for chunk upload. Let's do it!
 
                 bytesReported = 0; // init to zero...
-
+                msecsReported = (new Date().getTime());
+              
                 startRequest(contentLength, bChunkEnabled, chunkPart,
                         bLastChunk);
 
@@ -774,13 +794,15 @@ public abstract class DefaultFileUploadThread extends Thread implements
                 if (!this.stop){
                     this.uploadPolicy.checkUploadSuccess(status,
                             getResponseMsg(), getResponseBody());
-                  if (1 == nbFilesToUploadParam)
+                  if (1 == nbFilesToUploadParam) {  // we won't get here if an exception is raised...
                       this.filesToUpload[firstFileToUpload].uploadSuccess(getResponseBody()); // UPLOAD_STOPPED  - javascript callback
-
+                      this.nbSuccessfulUploads +=1;
+                  }
                 } else {
                   if (1 == nbFilesToUploadParam) {
                     this.filesToUpload[firstFileToUpload].uploadError(-290, "File Upload Stopped"); // UPLOAD_STOPPED  - javascript callback
-                    this.filesToUpload[firstFileToUpload].uploadComplete();
+                    this.nbCancelledUploads+=1;
+                    //this.filesToUpload[firstFileToUpload].uploadComplete();
                   }
                 }
             } catch (Exception e) {
@@ -788,7 +810,9 @@ public abstract class DefaultFileUploadThread extends Thread implements
                 bReturn = false;
                 if (1 == nbFilesToUploadParam) {
                    this.filesToUpload[firstFileToUpload].uploadError(-200,"File Upload Failed  "+getResponseMsg());
-                   this.filesToUpload[firstFileToUpload].uploadComplete();
+                   this.nbErrorUploads+=1;
+
+                   //this.filesToUpload[firstFileToUpload].uploadComplete();
                 }
                 /*
                  * The error will be managed by the main thread. We just store

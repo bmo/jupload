@@ -840,11 +840,7 @@ public class DefaultUploadPolicy implements UploadPolicy {
     public void setStatQueueErrors(int nfiles) {
        queue_errors = nfiles;
     }
-    public String getStatsJSON() {
 
-     return("{ \"in_progress\" : "+(in_progress ? 1 : 0)+", \"files_queued\" : "+files_queued+", \"successful_uploads\" : "+successful_uploads+
-           ", \"upload_errors\" : "+upload_errors+" , \"upload_cancelled\" : "+upload_cancelled+", \"queue_errors\": "+queue_errors+"}"); // whew.
-   }
 
     /**
      * The DefaultUpload accepts all file types: we just return an instance of
@@ -897,7 +893,7 @@ public class DefaultUploadPolicy implements UploadPolicy {
         jPanel.setLayout(new BorderLayout(10, 0));
         jPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
         jPanel.add(uploadButton, BorderLayout.LINE_START);
-        jPanel.add(progressBar, BorderLayout.CENTER);
+        if (null!= progressBar) jPanel.add(progressBar, BorderLayout.CENTER);
         jPanel.add(stopButton, BorderLayout.LINE_END);
         return jPanel;
     }

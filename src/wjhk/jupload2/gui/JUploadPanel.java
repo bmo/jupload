@@ -190,7 +190,9 @@ public class JUploadPanel extends JPanel implements ActionListener,
 
         jLogWindowPane.addMouseListener(this);
         logWindow.addMouseListener(this);
-        progressBar.addMouseListener(this);
+        if (null != progressBar) {
+          progressBar.addMouseListener(this);
+        }
         statusLabel.addMouseListener(this);
 
         /*
@@ -269,7 +271,7 @@ public class JUploadPanel extends JPanel implements ActionListener,
         filePanel = new FilePanelTableImp(this, this.uploadPolicy);
 
         // -------- JProgressBar progress --------
-        if (null == this.progressBar) {
+        if ( false &&  null == this.progressBar) {
             this.progressBar = new JProgressBar(SwingConstants.HORIZONTAL);
             this.progressBar.setStringPainted(true);
         }
@@ -449,8 +451,10 @@ public class JUploadPanel extends JPanel implements ActionListener,
      * from 100% to 0%.
      */
     private void actionClearProgressBar() {
-        this.progressBar.setValue(0);
-        this.progressBar.setString(null);
+        if (this.progressBar != null) {
+          this.progressBar.setValue(0);
+          this.progressBar.setString(null);
+        }
         this.timerAfterUpload.stop();
     }
 
@@ -574,7 +578,23 @@ public class JUploadPanel extends JPanel implements ActionListener,
      * This method can be called from outside to stop the upload.
      */
     public void doStopUpload() {
-        this.fileUploadThread.stopUpload();
+        if (null != this.fileUploadThread)
+          this.fileUploadThread.stopUpload();
+    }
+    /**
+     * Handle getting the stats from the upload thread.
+     * This method can be called from outside. IF there is no upload thread, returns an array of zeroes
+     *
+     */
+    public int[] doGetUploadStats() {
+        int nqueued = this.filePanel.getFiles().length;
+        int[] a5 = {0,0,0,0,nqueued};
+        if (null==this.fileUploadThread) {
+          return a5;
+        } // grab the info from 
+        int[] a4=this.fileUploadThread.getUploadStats();
+        System.arraycopy(a4, 0, a5, 0, 4);
+        return a5;
     }
 
     /**
