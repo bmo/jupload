@@ -32,6 +32,7 @@ import javax.swing.table.AbstractTableModel;
 import wjhk.jupload2.exception.JUploadExceptionStopAddingFiles;
 import wjhk.jupload2.exception.JUploadException;
 import wjhk.jupload2.filedata.FileData;
+import wjhk.jupload2.filedata.DefaultFileData;
 import wjhk.jupload2.policies.UploadPolicy;
 
 /**
@@ -221,8 +222,10 @@ class FilePanelDataModel2 extends AbstractTableModel {
                 throw new JUploadExceptionStopAddingFiles("Stopped by the user");
             }
         } else if (this.uploadPolicy.getMaxFileSize()<file.length()) {
-            String msg = String.format(uploadPolicy.getString("errFileTooBig"), file.getPath()+file.getName(),
-                file.length(),wjhk.jupload2.filedata.DefaultFileData.human_readable_file_size(this.uploadPolicy.getMaxFileSize()));
+            String msg = String.format(uploadPolicy.getString("errFileTooBig"), file.getPath(),
+              file.length(),
+              DefaultFileData.human_readable_file_size(this.uploadPolicy.getMaxFileSize()),
+              DefaultFileData.human_readable_file_size(file.length()));
             this.uploadPolicy.displayWarn(msg);
             if (JOptionPane.showConfirmDialog(null, msg, "alert",
                     JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.CANCEL_OPTION) {

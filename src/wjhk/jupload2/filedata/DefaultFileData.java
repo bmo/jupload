@@ -192,12 +192,9 @@ public class DefaultFileData implements FileData {
     }
 
     public static String human_readable_file_size(long fsize) {
-      NumberFormat nf = NumberFormat.getInstance();
+
       String suffix;
       double val;
-
-      final String ZEROES = "000000000000";
-      final String BLANKS = "            ";
 
       val = fsize;
       suffix = " bytes.";
@@ -211,17 +208,17 @@ public class DefaultFileData implements FileData {
       }
       else if (fsize < 1024*1024*1024) {
         suffix = " MB";
-        val = (double)fsize/1024;
+        val = (double)fsize/(1024*1024);
       }
       else if (fsize < 1024*1024*1024) {
         suffix = " GB";
-        val = (double)fsize/1024;
+        val = (double)fsize/(1024*1024*1024);
       }
       String s = Double.toString(val);
       int n1 = s.indexOf('.');
       int n2 = s.length() - n1 - 1;
 
-      if (n2>2) s = s.substring(0,n1+2+1);
+      if (n2>2 && n1>0) s = s.substring(0,n1+2+1);
       return s + suffix;
     }
   
