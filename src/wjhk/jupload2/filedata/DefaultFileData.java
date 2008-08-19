@@ -27,6 +27,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.text.NumberFormat;
 import java.util.Date;
 import java.util.Properties;
 import java.util.regex.Pattern;
@@ -190,6 +191,40 @@ public class DefaultFileData implements FileData {
         }
     }
 
+    public static String human_readable_file_size(long fsize) {
+      NumberFormat nf = NumberFormat.getInstance();
+      String suffix;
+      double val;
+
+      final String ZEROES = "000000000000";
+      final String BLANKS = "            ";
+
+      val = fsize;
+      suffix = " bytes.";
+      if (fsize<1024) {
+        suffix = " Bytes";
+        val = (double)fsize;
+      }
+      else if (fsize <1024*1024) {
+        suffix = " KB";
+        val = (double)fsize/1024;
+      }
+      else if (fsize < 1024*1024*1024) {
+        suffix = " MB";
+        val = (double)fsize/1024;
+      }
+      else if (fsize < 1024*1024*1024) {
+        suffix = " GB";
+        val = (double)fsize/1024;
+      }
+      String s = Double.toString(val);
+      int n1 = s.indexOf('.');
+      int n2 = s.length() - n1 - 1;
+
+      if (n2>2) s = s.substring(0,n1+2+1);
+      return s + suffix;
+    }
+  
     /** {@inheritDoc} */
     public void appendFileProperties(ByteArrayEncoder bae)
             throws JUploadIOException {
@@ -205,6 +240,7 @@ public class DefaultFileData implements FileData {
                 uploadFileModificationDate);
     }
 
+
     /** {@inheritDoc} */
     public void beforeUpload() throws JUploadException {
         // Default : we check that the file is smaller than the maximum upload
@@ -213,6 +249,8 @@ public class DefaultFileData implements FileData {
         
         if (getUploadLength() > this.uploadPolicy.getMaxFileSize()) {
             // TODO do the error callback here
+            //
+            uploadError(-110, "File size is too large (Maximum:"+human_readable_file_size(this.uploadPolicy.getMaxFileSize())+")");
             throw new JUploadExceptionTooBigFile(getFileName(),
                     getUploadLength(), this.uploadPolicy);
         }

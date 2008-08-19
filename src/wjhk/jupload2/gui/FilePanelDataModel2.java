@@ -205,12 +205,24 @@ class FilePanelDataModel2 extends AbstractTableModel {
      */
     public void addFile(File file, File root)
             throws JUploadExceptionStopAddingFiles {
+        
         if (contains(file)) {
             this.uploadPolicy.displayWarn("File " + file.getName()
                     + " already exists");
         } else if (!this.uploadPolicy.fileFilterAccept(file)) {
             String msg = file.getName() + " : "
                     + this.uploadPolicy.getString("errForbiddenExtension");
+            this.uploadPolicy.displayWarn(msg);
+            if (JOptionPane.showConfirmDialog(null, msg, "alert",
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.CANCEL_OPTION) {
+                // The user want to stop to add files to the list. For instance,
+                // when he/she added a whole directory, and it contains a lot of
+                // files that don't match the allowed file extension.
+                throw new JUploadExceptionStopAddingFiles("Stopped by the user");
+            }
+        } else if (this.uploadPolicy.getMaxFileSize()<file.length()) {
+            String msg = String.format(uploadPolicy.getString("errFileTooBig"), file.getPath()+file.getName(),
+                file.length(),wjhk.jupload2.filedata.DefaultFileData.human_readable_file_size(this.uploadPolicy.getMaxFileSize()));
             this.uploadPolicy.displayWarn(msg);
             if (JOptionPane.showConfirmDialog(null, msg, "alert",
                     JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.CANCEL_OPTION) {
