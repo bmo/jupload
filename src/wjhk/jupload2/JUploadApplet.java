@@ -34,6 +34,7 @@ import wjhk.jupload2.gui.JUploadPanel;
 import wjhk.jupload2.gui.JUploadTextArea;
 import wjhk.jupload2.policies.UploadPolicy;
 import wjhk.jupload2.policies.UploadPolicyFactory;
+import wjhk.jupload2.upload.JavascriptOutcaller;
 import netscape.javascript.JSObject;
 
 /**
@@ -73,6 +74,11 @@ public class JUploadApplet extends Applet {
      * variable to hold reference to JavascriptHandler object
      */
     private JavascriptHandler jsHandler = null;
+
+    /**
+       * variable to hold reference to JavascriptHandler object
+       */
+    public JavascriptOutcaller jsOutcaller = null;
 
     /**
      * The version of this applet. The version itseld is to be updated in the
@@ -161,8 +167,10 @@ public class JUploadApplet extends Applet {
             // upload command to the applet.
             jsHandler = new JavascriptHandler(this.uploadPolicy,
                     this.jUploadPanel);
+            // set up queue for callbacks...
+            this.jsOutcaller = new JavascriptOutcaller(this.uploadPolicy,
+                    this.jUploadPanel);
             // callback to tell everything ready
-
             this.uploadPolicy.performCallback(this.uploadPolicy.getCallBackString(UploadPolicy.PROP_CALLBACK_FILE_UPLOAD_LOADED),null,true);  // class call...
 
 

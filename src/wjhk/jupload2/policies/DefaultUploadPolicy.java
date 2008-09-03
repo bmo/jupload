@@ -725,8 +725,13 @@ public class DefaultUploadPolicy implements UploadPolicy {
                 }
                 // A JavaScript expression was specified. Execute it.
                 displayDebug("performCallback with "+instanced_function,20);
-                return_val =  JSObject.getWindow(getApplet()).eval(instanced_function);
-                return return_val;
+                if (this.applet.jsOutcaller != null) {
+                  this.applet.jsOutcaller.queue_callback(instanced_function);  // do with a queued callback...
+                  return null;
+                } else {
+                  return_val =  JSObject.getWindow(getApplet()).eval(instanced_function);
+                  return return_val;
+                }
             } catch (Exception ee) {
                 // Oops, no navigator. We are probably in debug mode, within
                 // eclipse for instance.
