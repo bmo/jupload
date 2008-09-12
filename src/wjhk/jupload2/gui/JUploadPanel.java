@@ -97,6 +97,9 @@ public class JUploadPanel extends JPanel implements ActionListener,
      */
     private int update_counter = 0;
 
+    /* keep track of the directory that we're in */
+    private static File currentDir = null;
+
     // ------------- VARIABLES ----------------------------------------------
 
     /**
@@ -470,11 +473,12 @@ public class JUploadPanel extends JPanel implements ActionListener,
         }
         if (null != this.fileChooser) {
           try {
+	    if (JUploadPanel.currentDir != null) this.fileChooser.setCurrentDirectory(this.currentDir);
             int ret = this.fileChooser.showOpenDialog(new Frame());
             if (JFileChooser.APPROVE_OPTION == ret) {
               String end_cmd;
               Integer n_selected = this.fileChooser.getSelectedFiles().length;
-
+              JUploadPanel.currentDir = this.fileChooser.getCurrentDirectory();
               addFiles(this.fileChooser.getSelectedFiles(),
                       this.fileChooser.getCurrentDirectory());
 

@@ -147,7 +147,12 @@ public class DefaultUploadPolicy implements UploadPolicy {
      */
     private String ignoredDirectoryRegex = UploadPolicy.DEFAULT_IGNORED_DIRECTORY_REGEX;
 
-  /**
+   /**
+     * Contains the ignoedFileRegex applet parameter.
+     */
+    private String ignoredFileRegex = UploadPolicy.DEFAULT_IGNORED_FILE_REGEX;
+
+   /**
      * Indicate whether the log window is shown or not to the user. In all cases
      * it remains in memory, and stores all debug information. This allows a log
      * information, in case of an error occurs.
@@ -474,6 +479,8 @@ public class DefaultUploadPolicy implements UploadPolicy {
                 this));
         setIgnoreDirectoryRegex(UploadPolicyFactory.getParameter(theApplet, PROP_IGNORE_DIRECTORY_REGEX, null,
                 this));
+        setIgnoreFileRegex(UploadPolicyFactory.getParameter(theApplet, PROP_IGNORE_FILE_REGEX, null,
+                      this));
 
         // get the filenameEncoding. If not null, it should be a valid argument
         // for the URLEncoder.encode method.
@@ -725,8 +732,13 @@ public class DefaultUploadPolicy implements UploadPolicy {
                 }
                 // A JavaScript expression was specified. Execute it.
                 displayDebug("performCallback with "+instanced_function,20);
-                return_val =  JSObject.getWindow(getApplet()).eval(instanced_function);
-                return return_val;
+                if (this.applet.jsOutcaller != null) {
+                  this.applet.jsOutcaller.queue_callback(instanced_function);  // do with a queued callback...
+                  return null;
+                } else {
+                  return_val =  JSObject.getWindow(getApplet()).eval(instanced_function);
+                  return return_val;
+                }
             } catch (Exception ee) {
                 // Oops, no navigator. We are probably in debug mode, within
                 // eclipse for instance.
@@ -1415,6 +1427,8 @@ public class DefaultUploadPolicy implements UploadPolicy {
                 + getAllowedFileExtensions(), 20);
         displayDebug(PROP_IGNORE_DIRECTORY_REGEX + ": "
                 + getIgnoreDirectoryRegex(), 20);
+        displayDebug(PROP_IGNORE_FILE_REGEX + ": "
+                + getIgnoreFileRegex(), 20);
         displayDebug(PROP_DEBUG_LEVEL + ": " + this.debugLevel
                 + " (debugfile: " + debugFile.getAbsolutePath() + ")", 1);
         displayDebug(PROP_FILE_CHOOSER_ICON_FROM_FILE_CONTENT + ": "
@@ -1553,6 +1567,13 @@ public class DefaultUploadPolicy implements UploadPolicy {
       return this.ignoredDirectoryRegex;
     }
 
+    protected void setIgnoreFileRegex(String ignoreFileRegex) {
+      this.ignoredFileRegex=ignoreFileRegex;
+    }
+
+    protected String getIgnoreFileRegex() {
+      return this.ignoredFileRegex;
+    }
     /** @see UploadPolicy#getAllowedFileExtensions() */
     public String getAllowedFileExtensions() {
         return this.allowedFileExtensions;
@@ -2217,10 +2238,17 @@ public class DefaultUploadPolicy implements UploadPolicy {
         if (file.isDirectory()) {
            return directoryFilterAccept(file);
           }
+        else {
+            this.displayDebug("File filter ignore: testing " + file.getName()+"\n regex: "+this.ignoredFileRegex, 70);
+            if (this.ignoredFileRegex!=null  && (this.ignoredFileRegex.length()>0 && file.getName().matches(this.ignoredFileRegex))){
+              displayDebug("Ignored!", 70);
+              return false;
+            }
         else if (this.allowedFileExtensions == null
                 || this.allowedFileExtensions.equals("")) {
             return true;
-        } else {
+        }
+
             // Get the file extension
             String extension = DefaultFileData.getExtension(file).toLowerCase();
             // allowedFileExtensions is :

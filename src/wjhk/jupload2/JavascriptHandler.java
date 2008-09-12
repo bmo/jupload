@@ -141,7 +141,7 @@ public class JavascriptHandler extends Thread {
 
         this.jsCommand = command;
         uploadPolicy.displayDebug(
-                "JavascriptHandler - doCommand(): jsCommand is: ["
+                "JavascriptHandler - doCommandX(): jsCommand is: ["
                         + this.jsCommand + "]", 50);
 
         // send notify() to waiting thread so that command gets executed.

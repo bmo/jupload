@@ -865,10 +865,14 @@ public interface UploadPolicy {
      */
     public final static String PROP_HIGH_QUALITY_PREVIEW = "highQualityPreview";
 
-  /**
+    /**
      * Parameter/Property name for specifying the regex for IGNORED directories, for example .svn
      */
     public final static String PROP_IGNORE_DIRECTORY_REGEX = "ignoreDirectoryRegex";
+   /**
+     * Parameter/Property name for specifying the regex for IGNORED directories, for example .svn
+     */
+    public final static String PROP_IGNORE_FILE_REGEX = "ignoreFileRegex";
     /**
      * Parameter/Property name for specifying the UI language
      */
@@ -1025,10 +1029,14 @@ public interface UploadPolicy {
      */
     public final static String DEFAULT_ALLOWED_FILE_EXTENSIONS = "";
 
-  /**
+    /**
      * Default value for parameter "ignoredDirectoryRegex".
      */
     public final static String DEFAULT_IGNORED_DIRECTORY_REGEX = "";
+   /**
+     * Default value for parameter "ignoredFileRegex".
+     */
+    public final static String DEFAULT_IGNORED_FILE_REGEX = "";
 
     /**
      * Default value for parameter "albumId".

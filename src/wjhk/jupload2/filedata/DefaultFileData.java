@@ -396,10 +396,11 @@ public class DefaultFileData implements FileData {
    * {@inheritDoc}
    */
   private String sanitize(String str){
-    String patt="[\\p{Cntrl}]";
+    String s,patt="[\\p{Cntrl}]";
     Pattern r = Pattern.compile(patt);
     Matcher m = r.matcher(str);
-    return m.replaceAll("_");
+    s =  m.replaceAll("_");
+    return s.replaceAll("'", "\\\\'"); /* single quote gets prefixed with slash */ 
   }
   public String getJSON() {
     String json_obj;
