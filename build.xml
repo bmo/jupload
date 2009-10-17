@@ -35,6 +35,9 @@
 
 	<property name="keystore" value="${basedir}/.tmpstore" />
 
+	<property name="onehub_keystore" value="/users/bmo/Desktop/onehub.p12" />
+	<property name="onehub_alias" value="onehub, inc.'s the usertrust network id" />
+
 	<property name="alias" value="jupload" />
 
 	<!-- If you leave this undefined, the password is requested
@@ -141,7 +144,7 @@
 
 	<target name="compile" depends="compile_all" />
 
-	<target name="compile_all" depends="prepare,-version_applet">
+	<target name="compile_all" depends="prepare">
 		<antcall target="compile_impl">
 			<param name="includes" value="wjhk/**" />
 		</antcall>
@@ -335,6 +338,10 @@ lastSrcDirModificationDate = ${svn.date}
 
 	<target name="signedjar" depends="jar,-createstore,-askpasswd" description="Create signed jar in build/">
 		<signjar jar="${path.build}/wjhk.jupload-V${version}.jar" keystore="${keystore}" storepass="${storepass}" alias="${alias}" />
+	</target>
+
+	<target name="onehubjar" depends="jar,-createstore,-askpasswd" description="Create ONEHUB signed jar in build/">
+		<signjar jar="${path.build}/wjhk.jupload-V${version}.jar" storetype="pkcs12" keystore="${onehub_keystore}" storepass="${storepass}" alias="${onehub_alias}" />
 	</target>
 
 	<target name="deploy" depends="clean,signedjar" description="Build and copy signed jar into wwwroot/">
