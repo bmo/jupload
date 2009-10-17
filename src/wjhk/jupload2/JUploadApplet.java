@@ -244,13 +244,13 @@ public class JUploadApplet extends Applet {
      * @return Returns the upload result. See the constants defined in the
      *         {@link JavascriptHandler} javadoc.
      */
-    public String startUpload() {
+    public String startUpload(String nothing) {
         return this.jsHandler.doCommand(JavascriptHandler.COMMAND_START_UPLOAD);
     }
-    public String startUpload(Integer index) {
+    public String startUploadI(Integer index) {
         return this.jsHandler.doCommand(JavascriptHandler.COMMAND_START_UPLOAD,index);
     }
-    public String startUpload(String file_id) {
+    public String startUploadS(String file_id) {
         return this.jsHandler.doCommand(JavascriptHandler.COMMAND_START_UPLOAD,file_id);
     }
     /**

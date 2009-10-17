@@ -400,7 +400,7 @@ public class DefaultFileData implements FileData {
     Pattern r = Pattern.compile(patt);
     Matcher m = r.matcher(str);
     s =  m.replaceAll("_");
-    return s.replaceAll("'", "\\\\'"); /* single quote gets prefixed with slash */ 
+    return s.replaceAll("'", "\\\\'"); /* single quote gets prefixed with slash */
   }
   public String getJSON() {
     String json_obj;
