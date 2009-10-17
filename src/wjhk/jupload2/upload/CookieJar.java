@@ -205,7 +205,7 @@ public class CookieJar {
             Matcher m = pNvPair.matcher(t.nextToken());
             if (m.matches()) {
                 String n = m.group(1);
-                String v = (m.groupCount() > 2) ? m.group(3).trim() : "";
+                String v = ((m.groupCount() > 2) && (m.group(3) != null)) ? m.group(3).trim() : "";
                 if (n.compareToIgnoreCase("version") == 0) {
                     cookie.version = Integer.parseInt(v);
                     continue;
